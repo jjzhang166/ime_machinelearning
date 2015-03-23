@@ -5,7 +5,7 @@
 #include <random>
 #include <vector>
 
-#include "neuralnet.h"
+#include "neuralnet/neuralnet.h"
 
 namespace nn
 {

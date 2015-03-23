@@ -6,13 +6,17 @@ project("IME Machine Learning")
 set(CMAKE_EXPORT_COMPILE_COMMANDS "ON")
 
 # Set C++11 as standard compilation
-#add_definitions("-str=c++11")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+add_definitions("-std=c++11")
+
+include_directories(.)
+#include_directories(geneticalgorithm)
 
 set(RUNTIME_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
+
 add_subdirectory(neuralnet)
+#add_subdirectory(geneticalgorithm)
 
 option(BUILD_EXAMPLES "ON to build examples. OFF to ignore them." ON)
 if (BUILD_EXAMPLES)

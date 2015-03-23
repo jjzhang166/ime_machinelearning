@@ -1,6 +1,6 @@
 #include <cstdio>
 
-#include "../neuralnet/neuralnet.h"
+#include "neuralnet/neuralnet.h"
 
 int main()
 {
