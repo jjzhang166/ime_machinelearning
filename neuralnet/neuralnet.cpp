@@ -5,6 +5,7 @@
 #include <random>
 #include <vector>
 
+#include "utils/rng.h"
 #include "neuralnet/neuralnet.h"
 
 namespace nn
@@ -38,14 +39,10 @@ addLayer(int s)
 void NeuralNet::
 randomize()
 {
-  static auto seed = std::chrono::system_clock::now().time_since_epoch().count();
-  static std::default_random_engine gen (seed);
-  static std::uniform_real_distribution<float> rng (0.0f, 1.0f);
-
   for (unsigned int l = 0; l < layers.size(); ++l)
     for (unsigned int n = 0; n < layers[l].neurons.size(); ++n)
       for (unsigned int w = 0; w < layers[l].neurons[n].ws.size(); ++w)
-        layers[l].neurons[n].ws[w] = rng(gen);
+        layers[l].neurons[n].ws[w] = rng::randFloat();
 }
 
 std::vector<float> NeuralNet::

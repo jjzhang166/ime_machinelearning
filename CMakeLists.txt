@@ -9,12 +9,11 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS "ON")
 add_definitions("-std=c++11")
 
 include_directories(.)
-#include_directories(geneticalgorithm)
 
 set(RUNTIME_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
-
+add_subdirectory(utils)
 add_subdirectory(neuralnet)
 #add_subdirectory(geneticalgorithm)
 

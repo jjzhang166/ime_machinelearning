@@ -1,5 +1,5 @@
-#ifndef NEURALNET_NEURALNET_H
-#define NEURALNET_NEURALNET_H
+#ifndef NEURALNET_H
+#define NEURALNET_H
 
 #include <vector>
 
@@ -31,4 +31,4 @@ struct NeuralNet
 float sigmoid(float x);
 
 }
-#endif //NEURALNET_NEURALNET_H
+#endif //NEURALNET_H
