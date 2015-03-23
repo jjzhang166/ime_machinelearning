@@ -15,7 +15,7 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
 add_subdirectory(utils)
 add_subdirectory(neuralnet)
-#add_subdirectory(geneticalgorithm)
+add_subdirectory(geneticalgorithm)
 
 option(BUILD_EXAMPLES "ON to build examples. OFF to ignore them." ON)
 if (BUILD_EXAMPLES)
