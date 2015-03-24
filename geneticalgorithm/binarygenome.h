@@ -17,10 +17,12 @@ public:
   BinaryGenome(unsigned chromo_len);
   BinaryGenome(type chromossome);
 
+  void setChromossome(type chromossome);
+
   const type& extract() const;
 
   void encode(const std::vector<unsigned>& genes, unsigned gene_length);
-  std::vector<unsigned> decode(unsigned gene_length);
+  std::vector<unsigned> decode(unsigned gene_length) const;
 
   virtual void mutate(double rate) override;
 protected:

@@ -22,6 +22,12 @@ BinaryGenome(BinaryGenome::type chromossome)
   chromossome_ = chromossome;
 }
 
+void BinaryGenome::
+setChromossome(type chromossome)
+{
+  chromossome_ = chromossome;
+}
+
 const BinaryGenome::type& BinaryGenome::
 extract() const
 {
@@ -43,7 +49,7 @@ encode(const std::vector<unsigned>& genes, unsigned gene_length)
 }
 
 std::vector<unsigned> BinaryGenome::
-decode(unsigned gene_length)
+decode(unsigned gene_length) const
 {
   std::vector<unsigned> decoded;
   int numgenes = (chromossome_.size() / gene_length) - 1;
