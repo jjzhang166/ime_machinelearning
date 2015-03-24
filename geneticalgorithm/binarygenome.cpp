@@ -5,20 +5,24 @@ namespace ga
 {
 
 BinaryGenome::
-BinaryGenome() :
-  chromossome_{}
+BinaryGenome()
 {}
 
 BinaryGenome::
 BinaryGenome(unsigned chromo_len) :
-  Genome {chromo_len},
-  chromossome_ {}
+  Genome {chromo_len}
 {
   for (unsigned i = 0; i < chromo_length_; ++i)
     chromossome_.push_back(rng::randBool());
 }
 
-const std::vector<char>& BinaryGenome::
+BinaryGenome::
+BinaryGenome(BinaryGenome::type chromossome)
+{
+  chromossome_ = chromossome;
+}
+
+const BinaryGenome::type& BinaryGenome::
 extract() const
 {
   return chromossome_;

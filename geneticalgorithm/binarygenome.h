@@ -11,10 +11,13 @@ namespace ga
 class BinaryGenome : public Genome
 {
 public:
+  using type = std::vector<char>;
+
   BinaryGenome();
   BinaryGenome(unsigned chromo_len);
+  BinaryGenome(type chromossome);
 
-  const std::vector<char>& extract() const;
+  const type& extract() const;
 
   void encode(const std::vector<unsigned>& genes, unsigned gene_length);
   std::vector<unsigned> decode(unsigned gene_length);
@@ -23,7 +26,7 @@ public:
 protected:
   // NOTE(naum): Can't iterate on vector<bool> and
   //             can't use bitset cause it's not dynamic
-  std::vector<char> chromossome_;
+  type chromossome_;
 };
 
 }
