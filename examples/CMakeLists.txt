@@ -5,3 +5,7 @@ set_target_properties(neuralnet_example PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PR
 add_executable(genomes_example genalg.cpp)
 target_link_libraries(genomes_example genalg)
 set_target_properties(genomes_example PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin/examples)
+
+add_executable(genalg_example genalg.cpp)
+target_link_libraries(genalg_example genalg)
+set_target_properties(genalg_example PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin/examples)
