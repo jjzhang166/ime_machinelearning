@@ -11,7 +11,7 @@ BinaryGenome() :
 
 BinaryGenome::
 BinaryGenome(unsigned chromo_len) :
-  Genome{chromo_len},
+  Genome {chromo_len},
   chromossome_ {}
 {
   for (unsigned i = 0; i < chromo_length_; ++i)
@@ -27,6 +27,15 @@ extract() const
 void BinaryGenome::
 encode(const std::vector<unsigned>& genes, unsigned gene_length)
 {
+  for (unsigned i = 0; i < genes.size(); i++)
+  {
+    unsigned a = genes[i];
+    for (int j = gene_length - 1; j >= 0; --j)
+    {
+      chromossome_[i * gene_length + j] = a % 2;
+      a >>= 1;
+    }
+  }
 }
 
 std::vector<unsigned> BinaryGenome::
@@ -35,9 +44,15 @@ decode(unsigned gene_length)
   std::vector<unsigned> decoded;
   int numgenes = (chromossome_.size() / gene_length) - 1;
   for (int i = 0; i < numgenes; ++i)
-    decoded.push_back((chromossome_[i    ] << 2) +
-                      (chromossome_[i + 1] << 1) +
-                      (chromossome_[i + 2]));
+  {
+    unsigned a = 0;
+    for (unsigned j = 0; j < gene_length; ++j)
+    {
+      a <<= 1;
+      a += chromossome_[gene_length * i + j];
+    }
+    decoded.push_back(a);
+  }
   return decoded;
 }
 
