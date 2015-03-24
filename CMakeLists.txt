@@ -12,6 +12,7 @@ include_directories(.)
 
 set(RUNTIME_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
+set(CMAKE_DEBUG_POSTFIX -d)
 
 add_subdirectory(utils)
 add_subdirectory(neuralnet)
