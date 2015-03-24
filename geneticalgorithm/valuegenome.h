@@ -41,7 +41,6 @@ template<typename T>
 ValueGenome<T>::
 ValueGenome(unsigned chromo_len) :
   Genome {chromo_len},
-  chromossome_ {},
   max_mutation {1},
   num_states_ {1}
 {
@@ -53,7 +52,6 @@ template<typename T>
 ValueGenome<T>::
 ValueGenome(unsigned chromo_len, unsigned num_states) :
   Genome {chromo_len},
-  chromossome_ {},
   max_mutation {1},
   num_states_ {num_states}
 {
