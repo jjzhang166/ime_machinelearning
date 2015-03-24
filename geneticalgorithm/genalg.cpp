@@ -16,7 +16,7 @@ BinaryGeneticAlgorithm(unsigned population_size,
                        unsigned chromo_len,
                        double mutation_rate,
                        double crossover_rate,
-                       std::function<double (BinaryGenome)> fitnessFunc) :
+                       std::function<double (const BinaryGenome&)> fitnessFunc) :
   chromo_len_ {chromo_len},
   population_size_ {population_size},
   population_ {},
@@ -40,6 +40,7 @@ populate()
 {
   if (population_.size() == 0)
     reset();
+  calculateFitness();
 }
 
 void BinaryGeneticAlgorithm::
@@ -58,7 +59,7 @@ calculateFitness()
   }
 }
 
-BinaryGenome& BinaryGeneticAlgorithm::
+BinaryGenome BinaryGeneticAlgorithm::
 select()
 {
   // TODO(naum): Tournament
@@ -74,30 +75,45 @@ select()
   }
 }
 
-std::pair<BinaryGenome, BinaryGenome> BinaryGeneticAlgorithm::
-crossover(const BinaryGenome& dad, const BinaryGenome& mom)
+void BinaryGeneticAlgorithm::
+crossover(BinaryGenome& dad, BinaryGenome& mom)
 {
-  unsigned cutpoint = rng::randFloat() * chromo_len_;
+  unsigned cutpoint = rng::randFloat() * (chromo_len_ - 2) + 1;
 
   BinaryGenome::type offspring[2];
   offspring[0] = dad.extract();
   offspring[1] = mom.extract();
 
-  for (unsigned i = cutpoint; i < chromo_len_; ++i)
+#ifndef NDEBUG
+  printf("crossover\n");
+  printf("before: ");
+  for (unsigned i = 0; i < offspring[0].size(); ++i)
   {
-    auto t = offspring[0][i];
-    offspring[0][i] = offspring[1][i];
-    offspring[1][i] = t;
+    if (i == cutpoint) printf(" ");
+    printf("%d", offspring[0][i]);
   }
+  printf("\n");
+#endif
 
-  return std::make_pair(BinaryGenome {offspring[0]}, BinaryGenome {offspring[1]});
+  // TODO(naum): Make it better
+  for (unsigned i = cutpoint; i < chromo_len_; ++i)
+    std::swap(offspring[0][i], offspring[1][i]);
+
+#ifndef NDEBUG
+  printf("after : ");
+  for (unsigned i = 0; i < offspring[0].size(); ++i)
+  {
+    if (i == cutpoint) printf(" ");
+    printf("%d", offspring[1][i]);
+  }
+  printf("\n\n");
+#endif
 }
 
 void BinaryGeneticAlgorithm::
 epoch()
 {
   populate();
-  calculateFitness();
 
   std::vector<BinaryGenome> offspring;
 
@@ -109,25 +125,37 @@ epoch()
     BinaryGenome children[2];
 
     // Selection
-    BinaryGenome dad = select(),
-                 mom = select();
+    children[0] = select();
+    children[1] = select();
 
     // Crossover
     if (rng::randFloat() < crossover_rate_)
-      std::tie(children[0], children[1]) = crossover(dad, mom);
+      crossover(children[0], children[1]);
 
     // Mutation
+#ifndef NDEBUG
+    printf("mutation\n");
+    printf("before: ");
+    for (unsigned i = 0; i < children[0].extract().size(); ++i)
+      printf("%d", children[0].extract()[i]);
+    printf("\n");
+#endif
     children[0].mutate(mutation_rate_);
     children[1].mutate(mutation_rate_);
+#ifndef NDEBUG
+    printf("after : ");
+    for (unsigned i = 0; i < children[1].extract().size(); ++i)
+      printf("%d", children[1].extract()[i]);
+    printf("\n\n");
+#endif
 
     offspring.push_back(children[0]);
     if (offspring.size() < population_size_)
       offspring.push_back(children[1]);
   }
 
-  // NOTE(naum): Esqueci disso -.-'
   population_ = offspring;
-  printf("pop: %zd\n", population_.size());
+  calculateFitness();
 
   generation_++;
 }

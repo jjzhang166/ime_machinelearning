@@ -4,7 +4,7 @@
 #include "geneticalgorithm/binarygenome.h"
 #include "geneticalgorithm/genalg.h"
 
-int genomeValue(ga::BinaryGenome genome)
+int genomeValue(const ga::BinaryGenome& genome)
 {
   auto decoded = genome.decode(4);
   std::stack<int> values;
@@ -34,19 +34,21 @@ int genomeValue(ga::BinaryGenome genome)
   return values.top();
 }
 
-double fitnessFunc(ga::BinaryGenome genome)
+double fitnessFunc(const ga::BinaryGenome& genome)
 {
   return 1.0 / (double)(exp(abs(genomeValue(genome) - 42) / 21.0));
 }
 
-void printGenome(ga::BinaryGenome genome)
+void printGenome(const ga::BinaryGenome& genome)
 {
   auto decoded = genome.decode(4);
   for (unsigned i = 0; i < decoded.size(); ++i)
   {
     int d = decoded[i];
-    if (d <= 9 || d >= 13)
+    if (d <= 9)
       printf("%d ", d);
+    else if (d >= 13)
+      printf("x ");
     else
     {
       if (d == 10) // Sum
@@ -62,19 +64,25 @@ void printGenome(ga::BinaryGenome genome)
 
 int main(int argc, char** argv)
 {
-  int population = 20, generations = 10;
+  int population = 20, generations = 100;
+  double mutation = 0.01, crossover = 0.7;
   if (argc > 1)
     population = atoi(argv[1]);
   if (argc > 2)
     generations = atoi(argv[2]);
+  if (argc > 3)
+    mutation = atoi(argv[3]);
+  if (argc > 4)
+    crossover = atoi(argv[4]);
 
-  ga::BinaryGeneticAlgorithm evolution (population, 32, 0.01, 0.7, fitnessFunc);
+  ga::BinaryGeneticAlgorithm evolution (population, 32, mutation, crossover, fitnessFunc);
 
   for (int i = 0; i < generations; ++i)
   {
     evolution.epoch();
+
     printf("generation %d:\n", evolution.generation());
-    printf("best %d: ", genomeValue(evolution.get_best_of_all()));
+    printf("best %d %.2f: ", genomeValue(evolution.get_best_of_all()), fitnessFunc(evolution.get_best_of_all()));
     printGenome(evolution.get_best_of_all());
 
     auto population = evolution.population();

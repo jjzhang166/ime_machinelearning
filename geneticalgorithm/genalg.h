@@ -18,7 +18,7 @@ public:
                          unsigned chromo_len,
                          double mutation_rate,
                          double crossover_rate,
-                         std::function<double (BinaryGenome)> fitnessFunc);
+                         std::function<double (const BinaryGenome&)> fitnessFunc);
 
   unsigned generation() const { return generation_; }
   void epoch();
@@ -30,12 +30,11 @@ protected:
   void populate();
   void calculateFitness();
 
-  BinaryGenome& select();
-  std::pair<BinaryGenome, BinaryGenome> crossover(const BinaryGenome& dad,
-                                                  const BinaryGenome& mom);
+  BinaryGenome select();
+  void crossover(BinaryGenome& dad, BinaryGenome& mom);
 
 private:
-  unsigned generation_ = 0;
+  unsigned generation_ = -1;
 
   unsigned chromo_len_;
   unsigned population_size_;
