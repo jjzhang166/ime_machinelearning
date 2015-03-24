@@ -6,19 +6,19 @@
 #include <vector>
 
 #include "utils/rng.h"
-#include "neuralnet/neuralnet.h"
+#include "neuralnet/fnn.h"
 
 namespace nn
 {
 
-void NeuralNet::
+void Feedforward::
 setInputSize(int s)
 {
   assert (s > 0);
   input_size = s;
 }
 
-void NeuralNet::
+void Feedforward::
 addLayer(int s)
 {
   assert (input_size > 0);
@@ -36,7 +36,7 @@ addLayer(int s)
     layers.back().neurons[i].ws.resize(prev_layer_size + 1);
 }
 
-void NeuralNet::
+void Feedforward::
 randomize()
 {
   for (unsigned int l = 0; l < layers.size(); ++l)
@@ -45,7 +45,7 @@ randomize()
         layers[l].neurons[n].ws[w] = rng::randFloat();
 }
 
-std::vector<float> NeuralNet::
+std::vector<float> Feedforward::
 activate(std::vector<float> input)
 {
   std::vector<float> activation;
@@ -69,7 +69,7 @@ activate(std::vector<float> input)
   return input;
 }
 
-void NeuralNet::
+void Feedforward::
 print()
 {
   for (unsigned int l = 0; l < layers.size(); ++l)

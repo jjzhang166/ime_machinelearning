@@ -1,5 +1,5 @@
-#ifndef NEURALNET_H
-#define NEURALNET_H
+#ifndef NEURALNET_FNN_H
+#define NEURALNET_FNN_H
 
 #include <vector>
 
@@ -16,7 +16,7 @@ struct NeuronLayer
   std::vector<Neuron> neurons;
 };
 
-struct NeuralNet
+struct Feedforward
 {
   std::vector<NeuronLayer> layers;
   int input_size = -1;
@@ -31,4 +31,4 @@ struct NeuralNet
 float sigmoid(float x);
 
 }
-#endif //NEURALNET_H
+#endif //NEURALNET_FNN_H
