@@ -1,1 +1,1 @@
-add_library (librng rng.cpp)
+add_library (rng rng.cpp)

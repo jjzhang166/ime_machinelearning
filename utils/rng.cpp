@@ -11,6 +11,7 @@ std::uniform_real_distribution<float> real_dist_ {0.0f, 1.0f};
 
 int randInt(int a, int b)
 {
+  // TODO(naum): Use uniform distribution
   return (generator_() % (b - a)) + a;
 }
 
