@@ -59,36 +59,46 @@ void printGenome(const ga::BinaryGenome& genome)
         printf("* ");
     }
   }
+
+  printf(" | ");
+  for (unsigned i = 0; i < 32; ++i)
+    printf("%d", genome.extract()[i]);
+
   printf("\n");
 }
 
 int main(int argc, char** argv)
 {
   int population = 20, generations = 100;
-  double elite = 0.1, mutation = 0.01, crossover = 0.7;
+  unsigned elite = 2;
+  double mutation = 0.01, crossover = 0.7;
   if (argc > 1)
-    population = atoi(argv[1]);
+    population  = atoi(argv[1]);
   if (argc > 2)
     generations = atoi(argv[2]);
   if (argc > 3)
-    mutation = atoi(argv[3]);
+    elite       = atoi(argv[3]);
   if (argc > 4)
-    crossover = atoi(argv[4]);
+    mutation    = atoi(argv[4]);
+  if (argc > 5)
+    crossover   = atoi(argv[5]);
 
   ga::BinaryGeneticAlgorithm evolution (population, 32, elite, mutation, crossover, fitnessFunc);
 
   for (int i = 0; i < generations; ++i)
   {
-    evolution.epoch();
+    if (i > 0) evolution.epoch();
 
     printf("generation %d:\n", evolution.generation());
-    printf("best %d %.2f: ", genomeValue(evolution.get_best_of_all()), fitnessFunc(evolution.get_best_of_all()));
+
+    printf("best:\n     %d %.2f: ", genomeValue(evolution.get_best_of_all()), fitnessFunc(evolution.get_best_of_all()));
     printGenome(evolution.get_best_of_all());
+    printf("\n");
 
     auto population = evolution.population();
     for (unsigned j = 0; j < population.size(); ++j)
     {
-      printf("%d %.2f: ", genomeValue(population[j]), fitnessFunc(population[j]));
+      printf("%3d %3d %1.2f: ", j, genomeValue(population[j]), fitnessFunc(population[j]));
       printGenome(population[j]);
     }
     printf("\n");

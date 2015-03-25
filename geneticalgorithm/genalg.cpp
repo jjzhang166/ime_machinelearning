@@ -15,7 +15,7 @@ BinaryGeneticAlgorithm()
 BinaryGeneticAlgorithm::
 BinaryGeneticAlgorithm(unsigned population_size,
                        unsigned chromo_len,
-                       double elite_rate,
+                       unsigned elite_size,
                        double mutation_rate,
                        double crossover_rate,
                        std::function<double (const BinaryGenome&)> fitnessFunc) :
@@ -23,11 +23,13 @@ BinaryGeneticAlgorithm(unsigned population_size,
   population_size_ {population_size},
   population_ {},
   total_fitness_ {0.0},
-  elite_size_ {static_cast<unsigned>(population_size_ * elite_rate)},
+  elite_size_ {elite_size},
   mutation_rate_ {mutation_rate},
   crossover_rate_ {crossover_rate},
   fitnessFunc_ {fitnessFunc}
 {
+  populate();
+  calculateFitness();
 }
 
 void BinaryGeneticAlgorithm::
@@ -43,7 +45,6 @@ populate()
 {
   if (population_.size() == 0)
     reset();
-  calculateFitness();
 }
 
 void BinaryGeneticAlgorithm::
@@ -68,7 +69,7 @@ void BinaryGeneticAlgorithm::
 sortPopulation()
 {
   std::sort(population_.begin(), population_.end(),
-            [] (BinaryGenome a, BinaryGenome b) { return a.getFitness() > b.getFitness(); });
+            [] (const BinaryGenome& a, const BinaryGenome& b) { return a.getFitness() > b.getFitness(); });
 }
 
 BinaryGenome BinaryGeneticAlgorithm::
@@ -125,15 +126,11 @@ crossover(BinaryGenome& dad, BinaryGenome& mom)
 void BinaryGeneticAlgorithm::
 epoch()
 {
-  populate();
-
   std::vector<BinaryGenome> offspring;
 
   // Elitism
   for(unsigned i = 0; i < elite_size_; ++i)
-  {
     offspring.push_back(population_[i]);
-  }
 
   while (offspring.size() < population_size_)
   {
