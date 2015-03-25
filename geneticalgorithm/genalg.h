@@ -16,6 +16,7 @@ public:
   BinaryGeneticAlgorithm();
   BinaryGeneticAlgorithm(unsigned population_size,
                          unsigned chromo_len,
+                         double elite_rate,
                          double mutation_rate,
                          double crossover_rate,
                          std::function<double (const BinaryGenome&)> fitnessFunc);
@@ -29,6 +30,7 @@ protected:
   void reset();
   void populate();
   void calculateFitness();
+  void sortPopulation();
 
   BinaryGenome select();
   void crossover(BinaryGenome& dad, BinaryGenome& mom);
@@ -41,6 +43,7 @@ private:
   std::vector<BinaryGenome> population_;
 
   double total_fitness_;
+  unsigned elite_size_;
   double mutation_rate_, crossover_rate_;
 
   std::function<double (BinaryGenome)> fitnessFunc_;

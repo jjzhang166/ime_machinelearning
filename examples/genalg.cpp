@@ -65,7 +65,7 @@ void printGenome(const ga::BinaryGenome& genome)
 int main(int argc, char** argv)
 {
   int population = 20, generations = 100;
-  double mutation = 0.01, crossover = 0.7;
+  double elite = 0.1, mutation = 0.01, crossover = 0.7;
   if (argc > 1)
     population = atoi(argv[1]);
   if (argc > 2)
@@ -75,7 +75,7 @@ int main(int argc, char** argv)
   if (argc > 4)
     crossover = atoi(argv[4]);
 
-  ga::BinaryGeneticAlgorithm evolution (population, 32, mutation, crossover, fitnessFunc);
+  ga::BinaryGeneticAlgorithm evolution (population, 32, elite, mutation, crossover, fitnessFunc);
 
   for (int i = 0; i < generations; ++i)
   {
