@@ -83,7 +83,7 @@ int main(int argc, char** argv)
   if (argc > 5)
     crossover   = atoi(argv[5]);
 
-  ga::BinaryGeneticAlgorithm evolution (population, 32, elite, mutation, crossover, fitnessFunc);
+  ga::GeneticAlgorithm<ga::BinaryGenome> evolution (population, 32, elite, mutation, crossover, fitnessFunc);
 
   for (int i = 0; i < generations; ++i)
   {
