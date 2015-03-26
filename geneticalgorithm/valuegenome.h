@@ -18,11 +18,11 @@ class ValueGenome : public Genome
 public:
   using type_chromo = std::vector<T>;
   using type_value  = T;
-  //using has_min_max_mut = true;
+
   ValueGenome();
   ValueGenome(unsigned chromo_len,
-              T min_value = 0.0f, T max_value = 1.0f,
-              T max_mutation = 0.1f);
+              T min_value = T(0.0f), T max_value = T(1.0f),
+              T max_mutation = T(0.1f));
 
   const type_chromo& extract() const;
 
