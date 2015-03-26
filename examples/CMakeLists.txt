@@ -9,3 +9,7 @@ set_target_properties(genomes_example PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJ
 add_executable(ga_binary_example ga_binary.cpp)
 target_link_libraries(ga_binary_example genalg)
 set_target_properties(ga_binary_example PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin/examples)
+
+add_executable(ga_value_int_example ga_value_int.cpp)
+target_link_libraries(ga_value_int_example genalg)
+set_target_properties(ga_value_int_example PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin/examples)
