@@ -69,11 +69,11 @@ void printGenome(const ga::BinaryGenome& genome)
 
 int main(int argc, char** argv)
 {
-  int population = 20, generations = 100;
+  int population_size = 20, generations = 100;
   unsigned elite = 2;
   double mutation = 0.01, crossover = 0.7;
   if (argc > 1)
-    population  = atoi(argv[1]);
+    population_size  = atoi(argv[1]);
   if (argc > 2)
     generations = atoi(argv[2]);
   if (argc > 3)
@@ -83,7 +83,7 @@ int main(int argc, char** argv)
   if (argc > 5)
     crossover   = atoi(argv[5]);
 
-  ga::GeneticAlgorithm<ga::BinaryGenome> evolution (population, 32, elite, mutation, crossover, fitnessFunc);
+  ga::GeneticAlgorithm<ga::BinaryGenome> evolution (population_size, 32, elite, mutation, crossover, fitnessFunc);
 
   for (int i = 0; i < generations; ++i)
   {
