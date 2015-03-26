@@ -5,7 +5,7 @@
 #include <vector>
 #include <utility>
 #include <algorithm>
-//
+
 #include "utils/rng.h"
 
 namespace ga

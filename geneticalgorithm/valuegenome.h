@@ -5,6 +5,8 @@
 #include <vector>
 
 #include "utils/rng.h"
+#include "utils/clip.h"
+
 #include "geneticalgorithm/genome.h"
 
 namespace ga
@@ -14,17 +16,20 @@ template<typename T>
 class ValueGenome : public Genome
 {
 public:
+  using type_chromo = std::vector<T>;
+  using type_value  = T;
+  //using has_min_max_mut = true;
   ValueGenome();
-  ValueGenome(unsigned chromo_len);
-  ValueGenome(unsigned chromo_len, unsigned numstates);
+  ValueGenome(unsigned chromo_len,
+              T min_value = 0.0f, T max_value = 1.0f,
+              T max_mutation = 0.1f);
 
-  const std::vector<T>& extract() const;
+  const type_chromo& extract() const;
 
-  virtual void mutate(double rate) override;
+  void mutate(double rate);
 protected:
-  std::vector<T> chromossome_;
-  T max_mutation;
-  unsigned num_states_ = 1;
+  type_chromo chromossome_;
+  T min_value_, max_value_, max_mutation_;
 };
 
 
@@ -39,28 +44,19 @@ ValueGenome()
 
 template<typename T>
 ValueGenome<T>::
-ValueGenome(unsigned chromo_len) :
+ValueGenome(unsigned chromo_len, T min_value, T max_value, T max_mutation) :
   Genome {chromo_len},
-  max_mutation {1},
-  num_states_ {1}
+  min_value_ {min_value},
+  max_value_ {max_value},
+  max_mutation_ {max_mutation}
 {
   for (unsigned i = 0; i < chromo_length_; ++i)
-    chromossome_.push_back(rng::randFloat() * num_states_);
+    chromossome_.push_back(T (rng::randFloat() * (max_value_ - min_value_)
+                              + min_value_));
 }
 
 template<typename T>
-ValueGenome<T>::
-ValueGenome(unsigned chromo_len, unsigned num_states) :
-  Genome {chromo_len},
-  max_mutation {1},
-  num_states_ {num_states}
-{
-  for (unsigned i = 0; i < chromo_length_; ++i)
-    chromossome_.push_back(rng::randFloat() * num_states_);
-}
-
-template<typename T>
-const std::vector<T>& ValueGenome<T>::
+const typename ValueGenome<T>::type_chromo& ValueGenome<T>::
 extract() const
 {
   return chromossome_;
@@ -71,8 +67,16 @@ void ValueGenome<T>::
 mutate(double rate)
 {
   for (unsigned i = 0; i < chromossome_.size(); ++i)
+  {
     if (rng::randFloat() < rate)
-      chromossome_[i] += rng::randFloat() * 2 * max_mutation - max_mutation;
+    {
+      T up_mut   = std::min(max_value_ - chromossome_[i], max_mutation_),
+        down_mut = std::min(chromossome_[i] - min_value_, max_mutation_);
+      chromossome_[i] = clip(chromossome_[i]
+                             + T (rng::randFloat() * (up_mut + down_mut) - down_mut),
+                             min_value_, max_value_);
+    }
+  }
 }
 
 }

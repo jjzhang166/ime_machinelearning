@@ -17,7 +17,7 @@ int main()
     printf("%f ", fgenes[i]);
   printf("\n");
 
-  ga::ValueGenome<int> iindividual {10, 10};
+  ga::ValueGenome<int> iindividual {10, 0, 10, 1};
   auto igenes = iindividual.extract();
   for (unsigned i = 0; i < igenes.size(); ++i)
     printf("%d ", igenes[i]);
