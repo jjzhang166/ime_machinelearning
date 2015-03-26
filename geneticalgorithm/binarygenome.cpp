@@ -16,12 +16,6 @@ BinaryGenome(unsigned chromo_len) :
     chromossome_.push_back(rng::randBool());
 }
 
-void BinaryGenome::
-setChromossome(type_chromo chromossome)
-{
-  chromossome_ = chromossome;
-}
-
 const BinaryGenome::type_chromo& BinaryGenome::
 extract() const
 {

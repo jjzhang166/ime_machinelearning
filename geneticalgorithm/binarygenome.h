@@ -15,12 +15,9 @@ public:
   //             can't use bitset cause it's not dynamic
   using type_chromo = std::vector<char>;
   using type_value = bool;
-  //using has_min_max_mut = false;
 
   BinaryGenome();
   BinaryGenome(unsigned chromo_len);
-
-  void setChromossome(type_chromo chromossome);
 
   const type_chromo& extract() const;
 
