@@ -30,9 +30,32 @@ public:
   TeseuGenome() {}
   TeseuGenome(unsigned chromo_len) : ValueGenome(chromo_len, 0, 4, 4)
   {}
+
+  int x, y;
 };
 
-bool simulate(const TeseuGenome& genome, int* end_x = nullptr, int* end_y = nullptr)
+void printGenome(const TeseuGenome& genome)
+{
+  printf("fitness: %f\n", genome.getFitness());
+  auto chromo = genome.extract();
+  for (unsigned j = 0; j < chromo.size(); ++j)
+    printf("%c", (chromo[j] == 0) ? 'U' : ((chromo[j] == 1) ? 'D' : ((chromo[j] == 2) ? 'L' : 'R')));
+  printf("\n");
+
+  for (int i = 0; i < N; i++)
+  {
+    for (int j = 0; j < M; ++j)
+    {
+      if (genome.x == j && genome.y == i)
+        printf("x");
+      else
+        printf("%c", labirinth[i][j]);
+    }
+    printf("\n");
+  }
+}
+
+double fitnessFunc(TeseuGenome& genome)
 {
   int x = origin_x, y = origin_y;
 
@@ -51,48 +74,14 @@ bool simulate(const TeseuGenome& genome, int* end_x = nullptr, int* end_y = null
 
     if (y == goal_y && x == goal_x)
     {
-      if (end_x) *end_x = x;
-      if (end_y) *end_y = y;
-      return true;
+      genome.x = x;
+      genome.y = y;
+      return 1.0;
     }
   }
 
-  if (end_x) *end_x = x;
-  if (end_y) *end_y = y;
-
-  return false;
-}
-
-void printGenome(const TeseuGenome& genome)
-{
-  auto chromo = genome.extract();
-  for (unsigned j = 0; j < chromo.size(); ++j)
-    printf("%c", (chromo[j] == 0) ? 'U' : ((chromo[j] == 1) ? 'D' : ((chromo[j] == 2) ? 'L' : 'R')));
-  printf("\n");
-
-  int x, y;
-  bool found = simulate(genome, &x, &y);
-  for (int i = 0; i < N; i++)
-  {
-    for (int j = 0; j < M; ++j)
-    {
-      if (x == j && y == i)
-        printf("x");
-      else
-        printf("%c", labirinth[i][j]);
-    }
-    printf("\n");
-  }
-
-  if (found)
-    printf("Found!\n");
-}
-
-double fitnessFunc(const TeseuGenome& genome)
-{
-  int x, y;
-  if (simulate(genome, &x, &y))
-    return 1.0;
+  genome.x = x;
+  genome.y = y;
 
   int dx = goal_x - x,
       dy = goal_y - y;
@@ -101,37 +90,41 @@ double fitnessFunc(const TeseuGenome& genome)
 
 int main(int argc, char** argv)
 {
-  int population_size = 20, generations = 100;
+  int population_size = 20;//, generations = 100;
   unsigned elite = 2;
   double mutation = 0.01, crossover = 0.7;
   if (argc > 1)
     population_size = atoi(argv[1]);
+  //if (argc > 2)
+  //  generations     = atoi(argv[2]);
   if (argc > 2)
-    generations     = atoi(argv[2]);
+    elite           = atoi(argv[2]);
   if (argc > 3)
-    elite           = atoi(argv[3]);
+    mutation        = atof(argv[3]);
   if (argc > 4)
-    mutation        = atof(argv[4]);
-  if (argc > 5)
-    crossover       = atof(argv[5]);
+    crossover       = atof(argv[4]);
 
   ga::GeneticAlgorithm<TeseuGenome> evolution (population_size, N * M, elite,
                                                mutation, crossover,
                                                fitnessFunc);
 
-  for (int i = 0; i < generations; ++i)
+  //for (int i = 0; i < generations; ++i)
+  auto population = evolution.population();
+  while (population[0].x != goal_x || population[0].y != goal_y)
   {
-    if (i > 0) evolution.epoch();
+    //if (i > 0) evolution.epoch();
 
     printf("generation %d:\n", evolution.generation());
 
-    auto population = evolution.population();
+    population = evolution.population();
     for (unsigned j = 0; j < 1; ++j)
     {
       //printf("%2d\n", j);
       printGenome(population[j]);
     }
     printf("\n");
+
+    evolution.epoch();
   }
 
   return 0;
