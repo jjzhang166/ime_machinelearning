@@ -22,3 +22,8 @@ option(BUILD_EXAMPLES "ON to build examples. OFF to ignore them." ON)
 if (BUILD_EXAMPLES)
   add_subdirectory(examples)
 endif()
+
+option(BUILD_CHALLENGES "ON to build challeges. OFF to ignore them." ON)
+if (BUILD_CHALLENGES)
+  add_subdirectory(challenges)
+endif()
