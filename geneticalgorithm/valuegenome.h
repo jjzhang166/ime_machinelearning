@@ -79,6 +79,7 @@ mutate(double rate)
                                min_value_, max_value_);
       }
       else
+        //TODO(rebeca): Fazer valer pra int
         chromossome_[i] += T (rng::randFloat() * 2 * max_mutation_) - max_mutation_;
     }
   }
