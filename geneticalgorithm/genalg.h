@@ -21,7 +21,7 @@ public:
                    unsigned elite_size,
                    double mutation_rate,
                    double crossover_rate,
-                   std::function<double (const G&)> fitnessFunc);
+                   std::function<double (G&)> fitnessFunc);
 
   unsigned generation() const { return generation_; }
   void epoch();
@@ -47,7 +47,7 @@ private:
   double total_fitness_;
   double mutation_rate_, crossover_rate_;
 
-  std::function<double (const G&)> fitnessFunc_;
+  std::function<double (G&)> fitnessFunc_;
 
   G best_of_all_;
 };
