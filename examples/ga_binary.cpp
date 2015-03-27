@@ -34,7 +34,7 @@ int genomeValue(const ga::BinaryGenome& genome)
   return values.top();
 }
 
-double fitnessFunc(const ga::BinaryGenome& genome)
+double fitnessFunc(ga::BinaryGenome& genome)
 {
   return 1.0 / (double)(exp(abs(genomeValue(genome) - 42) / 21.0));
 }
@@ -91,14 +91,14 @@ int main(int argc, char** argv)
 
     printf("generation %d:\n", evolution.generation());
 
-    printf("best:\n     %d %.2f: ", genomeValue(evolution.get_best_of_all()), fitnessFunc(evolution.get_best_of_all()));
+    printf("best:\n     %d %.2f: ", genomeValue(evolution.get_best_of_all()), evolution.get_best_of_all().getFitness());
     printGenome(evolution.get_best_of_all());
     printf("\n");
 
     auto population = evolution.population();
     for (unsigned j = 0; j < population.size(); ++j)
     {
-      printf("%3d %3d %1.2f: ", j, genomeValue(population[j]), fitnessFunc(population[j]));
+      printf("%3d %3d %1.2f: ", j, genomeValue(population[j]), population[j].getFitness());
       printGenome(population[j]);
     }
     printf("\n");

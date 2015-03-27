@@ -38,7 +38,7 @@ int main(int argc, char** argv)
 
   ga::GeneticAlgorithm<IntValueGenome> evolution (population_size, 32, elite,
                                                   mutation, crossover,
-                                                  [] (const IntValueGenome& a)
+                                                  [] (IntValueGenome& a)
                                                   { return 1.0; });
 
   for (int i = 0; i < generations; ++i)
