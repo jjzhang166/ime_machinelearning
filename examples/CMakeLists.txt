@@ -13,3 +13,7 @@ set_target_properties(ga_binary_example PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PR
 add_executable(ga_value_int_example ga_value_int.cpp)
 target_link_libraries(ga_value_int_example genalg)
 set_target_properties(ga_value_int_example PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin/examples)
+
+add_executable(ga_value_float_example ga_value_float.cpp)
+target_link_libraries(ga_value_float_example genalg)
+set_target_properties(ga_value_float_example PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin/examples)
