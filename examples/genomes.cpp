@@ -22,7 +22,7 @@ int main()
 
   {
     printf("Float Value Genome (0.0f ~ 1.0f):\n");
-    ga::ValueGenome<float> genome {10};
+    ga::ValueGenome<float> genome {10, 0.0f, 1.0f, 0.1f};
 
     for (int i = 0; i < 10; ++i)
     {
@@ -67,7 +67,7 @@ int main()
 
   {
     printf("Int Value Genome (0 ~ 9, not limited, mutation: 1):\n");
-    ga::ValueGenome<int, false, false> genome {10, 0, 10, 0.1};
+    ga::ValueGenome<int, false, false> genome {10, 0, 10, 1};
 
     for (int i = 0; i < 10; ++i)
     {

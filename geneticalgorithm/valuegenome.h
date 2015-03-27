@@ -3,6 +3,7 @@
 
 #include <type_traits>
 #include <vector>
+#include <cmath>
 
 #include "utils/rng.h"
 #include "utils/clip.h"
@@ -12,6 +13,7 @@
 namespace ga
 {
 
+// TODO(naum): Separate floating point genomes from integrals, or solve all integers cases
 template<typename T, bool Limited = true, bool RandomMutation = false>
 class ValueGenome : public Genome
 {
@@ -20,7 +22,7 @@ public:
   using type_value  = T;
 
   ValueGenome();
-  ValueGenome(unsigned chromo_len, T min_value = T(0.0), T max_value = T(1.0), double max_mutation_percent = 0.1);
+  ValueGenome(unsigned chromo_len, T min_value, T max_value, T max_mutation = T(0));
 
   const type_chromo& extract() const;
 
@@ -42,11 +44,11 @@ ValueGenome()
 
 template<typename T, bool Limited, bool RandomMutation>
 ValueGenome<T, Limited, RandomMutation>::
-ValueGenome(unsigned chromo_len, T min_value, T max_value, double max_mutation_percent) :
+ValueGenome(unsigned chromo_len, T min_value, T max_value, T max_mutation) :
   Genome {chromo_len},
   min_value_ {min_value},
   max_value_ {max_value},
-  max_mutation_ {T(max_mutation_percent * (max_value_ - min_value_))}
+  max_mutation_ {max_mutation}
 {
   for (unsigned i = 0; i < chromo_length_; ++i)
     chromossome_.push_back(T (rng::randFloat() * (max_value_ - min_value_)
@@ -86,9 +88,9 @@ struct mutateChromossome<T, true, false>
 {
   static void mutate(T& chromossome, T min_value, T max_value, T max_mutation)
   {
-    T up_mut   = std::min(max_value - chromossome, max_mutation),
+    T up_mut   = std::min(max_value - chromossome + (std::is_integral<T>::value ? 1 : 0), max_mutation),
       down_mut = std::min(chromossome - min_value, max_mutation);
-    chromossome += T (rng::randFloat() * (up_mut + down_mut) - down_mut);
+    chromossome += T (rng::randFloat() * (up_mut + down_mut)) - down_mut;
   }
 };
 
