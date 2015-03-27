@@ -12,7 +12,7 @@
 namespace ga
 {
 
-template<typename T>
+template<typename T, bool Limited = true>
 class ValueGenome : public Genome
 {
 public:
@@ -35,15 +35,15 @@ protected:
 
 // Template definition
 
-template<typename T>
-ValueGenome<T>::
+template<typename T, bool Limited>
+ValueGenome<T, Limited>::
 ValueGenome()
 {
   static_assert(std::is_arithmetic<T>::value, "Non arithmetic type!");
 }
 
-template<typename T>
-ValueGenome<T>::
+template<typename T, bool Limited>
+ValueGenome<T, Limited>::
 ValueGenome(unsigned chromo_len, T min_value, T max_value, T max_mutation) :
   Genome {chromo_len},
   min_value_ {min_value},
@@ -55,26 +55,31 @@ ValueGenome(unsigned chromo_len, T min_value, T max_value, T max_mutation) :
                               + min_value_));
 }
 
-template<typename T>
-const typename ValueGenome<T>::type_chromo& ValueGenome<T>::
+template<typename T, bool Limited>
+const typename ValueGenome<T, Limited>::type_chromo& ValueGenome<T, Limited>::
 extract() const
 {
   return chromossome_;
 }
 
-template<typename T>
-void ValueGenome<T>::
+template<typename T, bool Limited>
+void ValueGenome<T, Limited>::
 mutate(double rate)
 {
   for (unsigned i = 0; i < chromossome_.size(); ++i)
   {
     if (rng::randFloat() < rate)
     {
-      T up_mut   = std::min(max_value_ - chromossome_[i], max_mutation_),
-        down_mut = std::min(chromossome_[i] - min_value_, max_mutation_);
-      chromossome_[i] = clip(chromossome_[i]
-                             + T (rng::randFloat() * (up_mut + down_mut) - down_mut),
-                             min_value_, max_value_);
+      if (Limited)
+      {
+        T up_mut   = std::min(max_value_ - chromossome_[i], max_mutation_),
+          down_mut = std::min(chromossome_[i] - min_value_, max_mutation_);
+        chromossome_[i] = clip(chromossome_[i]
+                               + T (rng::randFloat() * (up_mut + down_mut) - down_mut),
+                               min_value_, max_value_);
+      }
+      else
+        chromossome_[i] += T (rng::randFloat() * 2 * max_mutation_) - max_mutation_;
     }
   }
 }
