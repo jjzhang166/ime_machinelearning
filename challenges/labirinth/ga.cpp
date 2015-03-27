@@ -10,19 +10,19 @@ const int M = 10;
 char labirinth[N][M + 1] =
 {
   "$$$$$$$$$$",
+  "$    $   $",
+  "$  $   $ $",
+  "$$$$$$$  $",
   "$        $",
-  "$        $",
-  "$        $",
-  "$        $",
-  "$        $",
-  "$        $",
-  "$        $",
-  "$        $",
+  "$ $$$$$$ $",
+  "$    $ $ $",
+  "$ $ $$ $ $",
+  "$ $    $ $",
   "$$$$$$$$$$"
 };
 
 int origin_x = 2, origin_y = 2;
-int goal_x = 7, goal_y = 7;
+int goal_x = 6, goal_y = 7;
 
 class TeseuGenome : public ga::ValueGenome<int>
 {
@@ -32,15 +32,7 @@ public:
   {}
 };
 
-void printGenome(const TeseuGenome& genome)
-{
-  auto chromo = genome.extract();
-  for (unsigned j = 0; j < chromo.size(); ++j)
-    printf("%d", chromo[j]);
-  printf("\n");
-}
-
-double fitnessFunc(const TeseuGenome& genome)
+bool simulate(const TeseuGenome& genome, int* end_x = nullptr, int* end_y = nullptr)
 {
   int x = origin_x, y = origin_y;
 
@@ -58,10 +50,53 @@ double fitnessFunc(const TeseuGenome& genome)
       x++;
 
     if (y == goal_y && x == goal_x)
-      return 1.0;
+    {
+      if (end_x) *end_x = x;
+      if (end_y) *end_y = y;
+      return true;
+    }
   }
 
-  return 1.0 / (abs(goal_y - y) + abs(goal_x - x));
+  if (end_x) *end_x = x;
+  if (end_y) *end_y = y;
+
+  return false;
+}
+
+void printGenome(const TeseuGenome& genome)
+{
+  auto chromo = genome.extract();
+  for (unsigned j = 0; j < chromo.size(); ++j)
+    printf("%c", (chromo[j] == 0) ? 'U' : ((chromo[j] == 1) ? 'D' : ((chromo[j] == 2) ? 'L' : 'R')));
+  printf("\n");
+
+  int x, y;
+  bool found = simulate(genome, &x, &y);
+  for (int i = 0; i < N; i++)
+  {
+    for (int j = 0; j < M; ++j)
+    {
+      if (x == j && y == i)
+        printf("x");
+      else
+        printf("%c", labirinth[i][j]);
+    }
+    printf("\n");
+  }
+
+  if (found)
+    printf("Found!\n");
+}
+
+double fitnessFunc(const TeseuGenome& genome)
+{
+  int x, y;
+  if (simulate(genome, &x, &y))
+    return 1.0;
+
+  int dx = goal_x - x,
+      dy = goal_y - y;
+  return 0.8 / sqrt(dx * dx + dy * dy);
 }
 
 int main(int argc, char** argv)
@@ -91,9 +126,9 @@ int main(int argc, char** argv)
     printf("generation %d:\n", evolution.generation());
 
     auto population = evolution.population();
-    for (unsigned j = 0; j < population.size(); ++j)
+    for (unsigned j = 0; j < 1; ++j)
     {
-      printf("%2d ", j);
+      //printf("%2d\n", j);
       printGenome(population[j]);
     }
     printf("\n");
