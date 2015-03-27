@@ -24,19 +24,20 @@ char labirinth[N][M + 1] =
 int origin_x = 2, origin_y = 2;
 int goal_x = 6, goal_y = 7;
 
-class TeseuGenome : public ga::ValueGenome<int>
+class TeseuGenome : public ga::ValueGenome<int, true, true>
 {
 public:
   TeseuGenome() {}
-  TeseuGenome(unsigned chromo_len) : ValueGenome(chromo_len, 0, 4, 4)
+  TeseuGenome(unsigned chromo_len) : ValueGenome(chromo_len, 0, 4)
   {}
 
   int x, y;
+  int steps;
 };
 
 void printGenome(const TeseuGenome& genome)
 {
-  printf("fitness: %f\n", genome.getFitness());
+  printf("fitness: %f\nsteps: %d\n", genome.getFitness(), genome.steps);
   auto chromo = genome.extract();
   for (unsigned j = 0; j < chromo.size(); ++j)
     printf("%c", (chromo[j] == 0) ? 'U' : ((chromo[j] == 1) ? 'D' : ((chromo[j] == 2) ? 'L' : 'R')));
@@ -60,7 +61,8 @@ double fitnessFunc(TeseuGenome& genome)
   int x = origin_x, y = origin_y;
 
   auto chromo = genome.extract();
-  for (unsigned i = 0; i < chromo.size(); ++i)
+  unsigned i;
+  for (i = 0; i < chromo.size(); ++i)
   {
     int dir = chromo[i];
     if      (dir == 0 && labirinth[y - 1][x    ] != '$')
@@ -76,12 +78,14 @@ double fitnessFunc(TeseuGenome& genome)
     {
       genome.x = x;
       genome.y = y;
+      genome.steps = i + 1;
       return 1.0;
     }
   }
 
   genome.x = x;
   genome.y = y;
+  genome.steps = i;
 
   int dx = goal_x - x,
       dy = goal_y - y;
@@ -90,13 +94,11 @@ double fitnessFunc(TeseuGenome& genome)
 
 int main(int argc, char** argv)
 {
-  int population_size = 20;//, generations = 100;
+  int population_size = 20;
   unsigned elite = 2;
   double mutation = 0.01, crossover = 0.7;
   if (argc > 1)
     population_size = atoi(argv[1]);
-  //if (argc > 2)
-  //  generations     = atoi(argv[2]);
   if (argc > 2)
     elite           = atoi(argv[2]);
   if (argc > 3)
@@ -108,20 +110,14 @@ int main(int argc, char** argv)
                                                mutation, crossover,
                                                fitnessFunc);
 
-  //for (int i = 0; i < generations; ++i)
   auto population = evolution.population();
   while (population[0].x != goal_x || population[0].y != goal_y)
   {
-    //if (i > 0) evolution.epoch();
-
     printf("generation %d:\n", evolution.generation());
 
     population = evolution.population();
     for (unsigned j = 0; j < 1; ++j)
-    {
-      //printf("%2d\n", j);
       printGenome(population[j]);
-    }
     printf("\n");
 
     evolution.epoch();
