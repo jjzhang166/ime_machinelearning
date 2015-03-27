@@ -4,11 +4,11 @@
 #include "geneticalgorithm/valuegenome.h"
 #include "geneticalgorithm/genalg.h"
 
-class IntValueGenome : public ga::ValueGenome<int>
+class IntValueGenome : public ga::ValueGenome<int, true, true>
 {
 public:
   IntValueGenome() {}
-  IntValueGenome(unsigned chromo_len) : ValueGenome(chromo_len, 0, 10, 1)
+  IntValueGenome(unsigned chromo_len) : ValueGenome(chromo_len, 0, 10)
   {}
 };
 
