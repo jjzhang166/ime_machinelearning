@@ -80,7 +80,7 @@ GeneticAlgorithm(unsigned population_size,
                  unsigned elite_size,
                  double mutation_rate,
                  double crossover_rate,
-                 std::function<double (const G&)> fitnessFunc) :
+                 std::function<double (G&)> fitnessFunc) :
   chromo_len_ {chromo_len},
   population_size_ {population_size},
   population_ {},
