@@ -32,9 +32,9 @@ int main(int argc, char** argv)
   if (argc > 3)
     elite       = atoi(argv[3]);
   if (argc > 4)
-    mutation    = atoi(argv[4]);
+    mutation    = atof(argv[4]);
   if (argc > 5)
-    crossover   = atoi(argv[5]);
+    crossover   = atof(argv[5]);
 
   ga::GeneticAlgorithm<IntValueGenome> evolution (population_size, 32, elite,
                                                   mutation, crossover,

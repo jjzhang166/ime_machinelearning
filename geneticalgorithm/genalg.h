@@ -43,11 +43,11 @@ private:
   unsigned population_size_;
   std::vector<G> population_;
 
-  double total_fitness_;
   unsigned elite_size_;
+  double total_fitness_;
   double mutation_rate_, crossover_rate_;
 
-  std::function<double (G)> fitnessFunc_;
+  std::function<double (const G&)> fitnessFunc_;
 
   G best_of_all_;
 };
