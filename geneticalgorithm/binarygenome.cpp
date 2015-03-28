@@ -40,7 +40,7 @@ std::vector<unsigned> BinaryGenome::
 decode(unsigned gene_length) const
 {
   std::vector<unsigned> decoded;
-  int numgenes = (chromossome_.size() / gene_length) - 1;
+  int numgenes = chromossome_.size() / gene_length;
   for (int i = 0; i < numgenes; ++i)
   {
     unsigned a = 0;
