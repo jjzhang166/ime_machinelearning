@@ -5,9 +5,12 @@
 int main()
 {
   nn::Feedforward net;
+  /*
   net.setInputSize(1);
   net.addLayer(4);
   net.addLayer(2);
+  */
+  net.addLayers(1, 4, 2);
   net.randomize();
   net.print();
 
