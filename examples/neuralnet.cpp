@@ -1,6 +1,6 @@
 #include <cstdio>
 
-#include "neuralnet/fnn.h"
+#include "neuralnetwork/fnn.h"
 
 int main()
 {

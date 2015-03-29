@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "utils/rng.h"
-#include "neuralnet/fnn.h"
+#include "neuralnetwork/fnn.h"
 
 namespace nn
 {
@@ -48,7 +48,7 @@ randomize()
 }
 
 void Feedforward::
-addLayer(unsigned s)
+addLayers(unsigned s)
 {
   if (input_size_ < 0)
     input_size_ = s;

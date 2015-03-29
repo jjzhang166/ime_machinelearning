@@ -1,9 +1,9 @@
-#ifndef NEURALNET_FNN_H
-#define NEURALNET_FNN_H
+#ifndef NEURALNETWORK_FNN_H
+#define NEURALNETWORK_FNN_H
 
 #include <vector>
 
-#include "neuralnet/neuron.h"
+#include "neuralnetwork/neuron.h"
 
 namespace nn
 {
@@ -17,7 +17,7 @@ public:
     std::vector<Neuron> neurons;
   };
 
-  void addLayer(unsigned s);
+  void addLayers(unsigned s);
 
   template<typename... Args>
   void addLayers(unsigned first, Args... args);
@@ -43,9 +43,9 @@ template<typename... Args>
 void Feedforward::
 addLayers(unsigned first, Args... args)
 {
-  addLayer(first);
+  addLayers(first);
   addLayers(args...);
 }
 
 }
-#endif //NEURALNET_FNN_H
+#endif //NEURALNETWORK_FNN_H
