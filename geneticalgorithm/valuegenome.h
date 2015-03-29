@@ -66,7 +66,7 @@ extract() const
 // ------------------------------------------------
 // Internal namespace to specialize mutate function
 // ------------------------------------------------
-namespace impl
+namespace priv
 {
 
 template<typename T, bool Limited, bool RandomMutation>
@@ -117,7 +117,7 @@ mutate(double rate)
 {
   for (unsigned i = 0; i < chromossome_.size(); ++i)
     if (rng::randFloat() < rate)
-      impl::mutateChromossome<T, Limited, RandomMutation>::mutate(chromossome_[i], min_value_, max_value_, max_mutation_);
+      priv::mutateChromossome<T, Limited, RandomMutation>::mutate(chromossome_[i], min_value_, max_value_, max_mutation_);
 }
 
 }

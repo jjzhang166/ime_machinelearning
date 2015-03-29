@@ -1,0 +1,8 @@
+////////////////////////////////////////////////////////////
+/// \mainpage
+///
+/// \section welcome Welcome
+/// Welcome to the official IME Machine Learning documentation. Here you will
+/// find a detailed view of all IMEML classes and functions.
+///
+////////////////////////////////////////////////////////////

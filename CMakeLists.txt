@@ -18,6 +18,11 @@ add_subdirectory(utils)
 add_subdirectory(neuralnetwork)
 add_subdirectory(geneticalgorithm)
 
+option(BUILD_DOCUMENTATION "ON to build documentation. OFF to ignore them." OFF)
+if (BUILD_DOCUMENTATION)
+  add_subdirectory(doc)
+endif()
+
 option(BUILD_EXAMPLES "ON to build examples. OFF to ignore them." ON)
 if (BUILD_EXAMPLES)
   add_subdirectory(examples)
