@@ -1,5 +1,5 @@
-#ifndef GFX_GFX_H
-#define GFX_GFX_H
+#ifndef CLIENT_GFX_H
+#define CLIENT_GFX_H
 
 #include <GLFW/glfw3.h>
 
@@ -24,4 +24,4 @@ double getTime();
 
 }
 
-#endif //GFX_GFX_H
+#endif //CLIENT_GFX_H

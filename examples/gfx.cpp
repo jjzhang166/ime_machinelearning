@@ -1,4 +1,4 @@
-#include "gfx/gfx.h"
+#include "client/gfx.h"
 
 int main()
 {
