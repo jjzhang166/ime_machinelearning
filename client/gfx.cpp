@@ -1,16 +1,25 @@
+#include <cstdio>
+
 #include "client/gfx.h"
 
 namespace gfx
 {
 
 GLFWwindow* window;
-int window_w,
-    window_h;
+float window_w,
+      window_h;
+float camera_x,
+      camera_y,
+      camera_w,
+      camera_h;
 
 bool initialize()
 {
   if (!glfwInit())
+  {
+    fprintf(stderr, "Could not initialize GLFW!\n");
     return false;
+  }
   return true;
 }
 
@@ -19,6 +28,7 @@ void terminate()
   glfwTerminate();
 }
 
+// TODO(naum): Do this automatically
 void setErrorCallback(void (*error_callback)(int error, const char* description))
 {
   glfwSetErrorCallback(error_callback);
@@ -40,6 +50,7 @@ bool createWindow(int w, int h, const char* title)
   window = glfwCreateWindow(window_w, window_h, title, 0, 0);
   if (!window)
   {
+    fprintf(stderr, "Could not initialize GLFW Window!\n");
     terminate();
     return false;
   }
@@ -47,11 +58,9 @@ bool createWindow(int w, int h, const char* title)
   glfwMakeContextCurrent(window);
 
   // Setup OpenGL
-  // TODO(naum): Use modern pipeline?
-  glMatrixMode(GL_PROJECTION);
-  glViewport(0, 0, window_w, window_h);
-  glOrtho(0, window_w, window_h, 0, 1.f, -1.f);
-  glMatrixMode(GL_MODELVIEW);
+  camera_w = window_w;
+  camera_h = window_h;
+  setCameraPosition(w / 2.f, h / 2.f);
 }
 
 bool windowShouldClose()
@@ -70,11 +79,35 @@ void swapBuffers()
   glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void setCameraPosition(int x, int y)
+void setCameraPosition(float x, float y)
 {
+  camera_x = x;
+  camera_y = y;
+  updateCamera();
+}
+
+void setCameraWidth(float w)
+{
+  camera_w = w;
+  camera_h = window_h * w / window_w;
+  updateCamera();
+}
+
+void setCameraHeight(float h)
+{
+  camera_h = h;
+  camera_w = window_w * h / window_h;
+  updateCamera();
+}
+
+void updateCamera()
+{
+  // XXX(naum): Use modern pipeline?
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  glOrtho(x, window_w + x, window_h + y, y, 1.f, -1.f);
+  glOrtho(camera_x - camera_w / 2.f, camera_x + camera_w / 2.f,
+          camera_y - camera_h / 2.f, camera_y + camera_h / 2.f,
+          1.f, -1.f);
   glMatrixMode(GL_MODELVIEW);
 }
 

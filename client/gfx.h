@@ -17,7 +17,10 @@ bool windowShouldClose();
 void pollEvents();
 void swapBuffers();
 
-void setCameraPosition(int x, int y);
+void setCameraPosition(float x, float y);
+void setCameraWidth(float w);
+void setCameraHeight(float h);
+void updateCamera();
 
 void setTime(double time);
 double getTime();
