@@ -67,6 +67,7 @@ void pollEvents()
 void swapBuffers()
 {
   glfwSwapBuffers(window);
+  glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void setCameraPosition(int x, int y)

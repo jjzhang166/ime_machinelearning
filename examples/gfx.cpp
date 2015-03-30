@@ -5,15 +5,13 @@ int main()
   if(!client::initializeGfx())
     return 1;
 
-  if (!client::createWindow(640, 480, "client Example"))
+  if (!client::createWindow(640, 480, "Gfx Example"))
     return 2;
 
   client::setTime(0.0);
 
   while (!client::windowShouldClose())
   {
-    glClear(GL_COLOR_BUFFER_BIT);
-
     client::setCameraPosition(10 * client::getTime(), 0);
 
     glLoadIdentity();
