@@ -40,7 +40,7 @@ endif()
 option(BUILD_CLIENT "ON to build graphical client. OFF to ignore them." ON)
 if (BUILD_CLIENT)
   find_package(PkgConfig)
-  pkg_search_module(GLFW glfw3)
+  pkg_search_module(GLFW glfw3 REQUIRED)
   find_package(Box2D REQUIRED)
 
   if (GLFW_FOUND AND BOX2D_FOUND)
