@@ -73,7 +73,7 @@ render()
   if (!body_)
     return;
 
-  for (auto f = body_->GetFixtureList(); f->GetBody() != nullptr; ++f)
+  for (auto f = body_->GetFixtureList(); f != nullptr; f = f->GetNext())
   {
     b2Shape::Type type = f->GetType();
     if (type == b2Shape::e_circle)
@@ -83,7 +83,9 @@ render()
 
       glBegin(GL_TRIANGLE_FAN);
 
-      auto origin = shape->m_p;
+      // FIXME(naum): FIX THIS!!!
+
+      auto origin = body_->GetWorldPoint(shape->m_p);
       auto radius = shape->m_radius;
       glVertex3f(origin.x + pos.x, origin.y + pos.y, 0.f);
 
