@@ -7,14 +7,14 @@ GLFWwindow* window;
 int window_w,
     window_h;
 
-bool initialize()
+bool initializeGfx()
 {
   if (!glfwInit())
     return false;
   return true;
 }
 
-void terminate()
+void terminateGfx()
 {
   glfwTerminate();
 }
@@ -40,7 +40,7 @@ bool createWindow(int w, int h, const char* title)
   window = glfwCreateWindow(window_w, window_h, title, 0, 0);
   if (!window)
   {
-    terminate();
+    terminateGfx();
     return false;
   }
 

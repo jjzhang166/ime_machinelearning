@@ -6,8 +6,8 @@
 namespace client
 {
 
-bool initialize();
-void terminate();
+bool initializeGfx();
+void terminateGfx();
 
 void setErrorCallback(void (*error_callback)(int error, const char* description));
 void setKeyCallback(void (*key_callback)(GLFWwindow* window, int key, int scancode, int action, int mods));

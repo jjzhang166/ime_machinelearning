@@ -2,7 +2,7 @@
 
 int main()
 {
-  if(!client::initialize())
+  if(!client::initializeGfx())
     return 1;
 
   if (!client::createWindow(640, 480, "client Example"))
@@ -27,7 +27,7 @@ int main()
     client::swapBuffers();
   }
 
-  client::terminate();
+  client::terminateGfx();
 
   return 0;
 }
