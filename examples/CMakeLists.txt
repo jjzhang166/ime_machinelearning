@@ -1,19 +1,8 @@
-add_executable(neuralnet_example neuralnet.cpp)
-target_link_libraries(neuralnet_example neuralnet)
-set_target_properties(neuralnet_example PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin/examples)
+include(${CMAKE_SOURCE_DIR}/cmake/Macros.cmake)
 
-add_executable(genomes_example genomes.cpp)
-target_link_libraries(genomes_example genalg)
-set_target_properties(genomes_example PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin/examples)
-
-add_executable(ga_binary_example ga_binary.cpp)
-target_link_libraries(ga_binary_example genalg)
-set_target_properties(ga_binary_example PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin/examples)
-
-add_executable(ga_value_int_example ga_value_int.cpp)
-target_link_libraries(ga_value_int_example genalg)
-set_target_properties(ga_value_int_example PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin/examples)
-
-add_executable(ga_value_float_example ga_value_float.cpp)
-target_link_libraries(ga_value_float_example genalg)
-set_target_properties(ga_value_float_example PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin/examples)
+add_example(neuralnet_example neuralnet.cpp neuralnet)
+add_example(genomes_example genomes.cpp genalg)
+add_example(ga_binary_example ga_binary.cpp genalg)
+add_example(ga_value_int_example ga_value_int.cpp genalg)
+add_example(ga_value_float_example ga_value_float.cpp genalg)
+add_example(gfx_example gfx.cpp gfx)
