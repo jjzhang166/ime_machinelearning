@@ -54,7 +54,7 @@ unregisterBody(Body* body)
                             std::end(bodies_),
                             body),
                 std::end(bodies_));
-  fprintf(stderr, "Body registered. count: %zd\n", bodies_.size());
+  fprintf(stderr, "Body unregistered. count: %zd\n", bodies_.size());
 }
 
 }
