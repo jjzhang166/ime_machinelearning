@@ -1,6 +1,6 @@
 #include "client/gfx.h"
 
-namespace gfx
+namespace client
 {
 
 GLFWwindow* window;

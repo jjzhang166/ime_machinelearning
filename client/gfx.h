@@ -3,7 +3,7 @@
 
 #include <GLFW/glfw3.h>
 
-namespace gfx
+namespace client
 {
 
 bool initialize();

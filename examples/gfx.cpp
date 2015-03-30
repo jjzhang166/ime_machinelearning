@@ -2,19 +2,19 @@
 
 int main()
 {
-  if(!gfx::initialize())
+  if(!client::initialize())
     return 1;
 
-  if (!gfx::createWindow(640, 480, "GFX Example"))
+  if (!client::createWindow(640, 480, "client Example"))
     return 2;
 
-  gfx::setTime(0.0);
+  client::setTime(0.0);
 
-  while (!gfx::windowShouldClose())
+  while (!client::windowShouldClose())
   {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    gfx::setCameraPosition(10 * gfx::getTime(), 0);
+    client::setCameraPosition(10 * client::getTime(), 0);
 
     glLoadIdentity();
     glBegin(GL_TRIANGLES);
@@ -23,11 +23,11 @@ int main()
     glColor3f(0.f, 0.f, 1.f); glVertex3f(300.f, 273.f, 0.f);
     glEnd();
 
-    gfx::pollEvents();
-    gfx::swapBuffers();
+    client::pollEvents();
+    client::swapBuffers();
   }
 
-  gfx::terminate();
+  client::terminate();
 
   return 0;
 }
