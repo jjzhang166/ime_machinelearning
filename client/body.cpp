@@ -9,7 +9,7 @@
 
 #include "client/gfx.h"
 
-namespace client
+namespace gfx
 {
 
 Body::

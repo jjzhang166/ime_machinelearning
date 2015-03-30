@@ -6,7 +6,7 @@
 
 #include <Box2D/Box2D.h>
 
-namespace client
+namespace gfx
 {
 
 class Body;

@@ -3,11 +3,11 @@
 
 #include <GLFW/glfw3.h>
 
-namespace client
+namespace gfx
 {
 
-bool initializeGfx();
-void terminateGfx();
+bool initialize();
+void terminate();
 
 void setErrorCallback(void (*error_callback)(int error, const char* description));
 void setKeyCallback(void (*key_callback)(GLFWwindow* window, int key, int scancode, int action, int mods));

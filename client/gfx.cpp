@@ -1,20 +1,20 @@
 #include "client/gfx.h"
 
-namespace client
+namespace gfx
 {
 
 GLFWwindow* window;
 int window_w,
     window_h;
 
-bool initializeGfx()
+bool initialize()
 {
   if (!glfwInit())
     return false;
   return true;
 }
 
-void terminateGfx()
+void terminate()
 {
   glfwTerminate();
 }
@@ -40,7 +40,7 @@ bool createWindow(int w, int h, const char* title)
   window = glfwCreateWindow(window_w, window_h, title, 0, 0);
   if (!window)
   {
-    terminateGfx();
+    terminate();
     return false;
   }
 

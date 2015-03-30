@@ -6,7 +6,7 @@
 class b2Shape;
 class b2Body;
 
-namespace client
+namespace gfx
 {
 
 class World;

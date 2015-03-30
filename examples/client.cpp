@@ -4,17 +4,17 @@
 
 int main()
 {
-  if (!client::initializeGfx())
+  if (!gfx::initialize())
     return 1;
 
-  if (!client::createWindow(640, 480, "Client Example"))
+  if (!gfx::createWindow(640, 480, "Client Example"))
     return 2;
 
-  client::World world;
+  gfx::World world;
   world.setGravity(0.f, 10.f);
 
 
-  client::Body body {world, 100, 100};
+  gfx::Body body {world, 100, 100};
 
   {
     b2CircleShape circle;
@@ -23,7 +23,7 @@ int main()
     body.addFixture(&circle, 1.0f, 0.3f, 0.3f);
   }
 
-  client::Body ground {world, 100, 300};
+  gfx::Body ground {world, 100, 300};
   ground.setStatic(true);
   {
     b2PolygonShape poly;
@@ -31,20 +31,20 @@ int main()
     ground.addShape(&poly);
   }
 
-  client::setTime(0.0);
-  while (!client::windowShouldClose())
+  gfx::setTime(0.0);
+  while (!gfx::windowShouldClose())
   {
-    if (client::getTime() >= world.getTimeStep())
+    if (gfx::getTime() >= world.getTimeStep())
     {
       world.step();
-      client::setTime(0.0);
+      gfx::setTime(0.0);
     }
 
     world.render();
 
-    client::pollEvents();
-    client::swapBuffers();
+    gfx::pollEvents();
+    gfx::swapBuffers();
   }
 
-  client::terminateGfx();
+  gfx::terminate();
 }

@@ -4,7 +4,7 @@
 #include "client/world.h"
 #include "client/body.h"
 
-namespace client
+namespace gfx
 {
 
 World::
