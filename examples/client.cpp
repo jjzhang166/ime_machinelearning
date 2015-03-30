@@ -17,8 +17,12 @@ int main()
   gfx::Body body {world, 100, 100};
 
   {
+    b2PolygonShape poly;
+    poly.SetAsBox(50.f, 50.f);
+    body.addShape(&poly);
+
     b2CircleShape circle;
-    circle.m_p.Set(0.0f, 0.0f);
+    circle.m_p.Set(200.0f, 0.0f);
     circle.m_radius = 100.0f;
     body.addFixture(&circle, 1.0f, 0.3f, 0.3f);
   }

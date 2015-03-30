@@ -79,7 +79,6 @@ render()
     if (type == b2Shape::e_circle)
     {
       auto shape = dynamic_cast<b2CircleShape*>(f->GetShape());
-      auto pos = body_->GetPosition();
 
       glBegin(GL_TRIANGLE_FAN);
 
@@ -87,17 +86,17 @@ render()
 
       auto origin = body_->GetWorldPoint(shape->m_p);
       auto radius = shape->m_radius;
-      glVertex3f(origin.x + pos.x, origin.y + pos.y, 0.f);
+      glVertex3f(origin.x, origin.y, 0.f);
 
       for (int i = 0; i < CIRCLE_DIVISIONS; ++i)
       {
         glVertex3f(
-          origin.x + radius * cosf(i * 2 * M_PI / CIRCLE_DIVISIONS) + pos.x,
-          origin.y + radius * sinf(i * 2 * M_PI / CIRCLE_DIVISIONS) + pos.y,
+          origin.x + radius * cosf(i * 2 * M_PI / CIRCLE_DIVISIONS),
+          origin.y + radius * sinf(i * 2 * M_PI / CIRCLE_DIVISIONS),
           0.f
         );
       }
-      glVertex3f(origin.x + radius + pos.x, origin.y + pos.y, 0.f);
+      glVertex3f(origin.x + radius, origin.y, 0.f);
       glEnd();
     }
     else if (type == b2Shape::e_polygon)
