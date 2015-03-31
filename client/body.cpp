@@ -1,7 +1,7 @@
 #include <cstdio>
 #include <cmath>
 
-#include "client/defines.h"
+#include "client/draw.h"
 #include "client/body.h"
 #include "client/world.h"
 
@@ -86,31 +86,21 @@ render()
     if (type == b2Shape::e_circle)
     {
       auto shape = dynamic_cast<b2CircleShape*>(f->GetShape());
-
-      glBegin(GL_TRIANGLE_FAN);
-
-      // FIXME(naum): FIX THIS!!!
-
       auto origin = body_->GetWorldPoint(shape->m_p);
       auto radius = shape->m_radius;
-      glVertex3f(origin.x, origin.y, 0.f);
 
-      for (int i = 0; i < CIRCLE_DIVISIONS; ++i)
-      {
-        glVertex3f(
-          origin.x + radius * cosf(i * 2 * M_PI / CIRCLE_DIVISIONS),
-          origin.y + radius * sinf(i * 2 * M_PI / CIRCLE_DIVISIONS),
-          0.f
-        );
-      }
-      glVertex3f(origin.x + radius, origin.y, 0.f);
-      glEnd();
+      glPushMatrix();
+      glTranslatef(origin.x, origin.y, 0.f);
+      glRotatef(body_->GetAngle(), 0, 0, 1.f);
+      drawFilledCircle(radius);
+      glPopMatrix();
     }
     else if (type == b2Shape::e_polygon)
     {
       auto shape = dynamic_cast<b2PolygonShape*>(f->GetShape());
       auto n = shape->GetVertexCount();
 
+      // TODO(naum): Change this
       glBegin(GL_POLYGON);
       b2Vec2 vertex;
       for (int i = 0; i < n; ++i)
