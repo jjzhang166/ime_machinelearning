@@ -61,6 +61,8 @@ bool createWindow(int w, int h, const char* title)
   camera_w = window_w;
   camera_h = window_h;
   setCameraPosition(w / 2.f, h / 2.f);
+
+  return true;
 }
 
 bool windowShouldClose()

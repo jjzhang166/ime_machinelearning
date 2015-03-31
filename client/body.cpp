@@ -13,21 +13,22 @@ namespace gfx
 {
 
 Body::
-Body(World& world, float x, float y, float angle) : world_ {&world}, active_ {false}
+Body(World& world, float x, float y, float angle) :
+  world_ {world}, active_ {false}
 {
-  world_->registerBody(this);
+  world_.registerBody(this);
 
   // Body definition
   b2BodyDef bodyDef;
   bodyDef.type = b2_dynamicBody;
 
   bodyDef.position.Set(x, y);
-  bodyDef.angle = angle;
+  bodyDef.angle = angle * M_PI / 180.f;
 
   bodyDef.linearDamping = 0.f;
   bodyDef.angularDamping = 0.01f;
 
-  body_ = world_->world_.CreateBody(&bodyDef);
+  body_ = world_.world_.CreateBody(&bodyDef);
 
   // Set active
   active_ = true;
@@ -36,9 +37,9 @@ Body(World& world, float x, float y, float angle) : world_ {&world}, active_ {fa
 Body::
 ~Body()
 {
-  world_->unregisterBody(this);
+  world_.unregisterBody(this);
   if (body_)
-    world_->world_.DestroyBody(body_);
+    world_.world_.DestroyBody(body_);
 }
 
 void Body::

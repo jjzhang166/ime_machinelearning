@@ -30,7 +30,7 @@ public:
   void render();
 
 protected:
-  World* world_;
+  World& world_;
 
   b2Body* body_;
 

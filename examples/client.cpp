@@ -16,7 +16,6 @@ int main()
   world.setGravity(0.f, -10.f);
 
   gfx::Body body {world, 0, 8};
-
   {
     b2CircleShape circle;
     circle.m_p.Set(0.f, 0.f);
@@ -24,7 +23,7 @@ int main()
     body.addFixture(&circle, 1.0f, 0.3f, 0.85f);
   }
 
-  gfx::Body ground {world, 0, 0.5};
+  gfx::Body ground {world, 0, 0.5, 10};
   ground.setStatic(true);
   {
     b2PolygonShape poly;

@@ -153,6 +153,9 @@ select()
       return population_[i];
     selected -= fitness;
   }
+
+  // NOTE(naum): Must not reach this return!!!
+  return population_[0];
 }
 
 template<typename G>
