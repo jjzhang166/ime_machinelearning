@@ -3,8 +3,7 @@
 
 #include <memory>
 
-class b2Shape;
-class b2Body;
+#include <Box2D/Box2D.h>
 
 namespace gfx
 {
@@ -26,6 +25,8 @@ public:
                   float density,
                   float friction,
                   float restitution);
+
+  b2Vec2 getPosition() const;
 
   void render();
 

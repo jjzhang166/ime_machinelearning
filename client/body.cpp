@@ -68,6 +68,12 @@ addFixture(const b2Shape* shape,
   body_->CreateFixture(&fixtureDef);
 }
 
+b2Vec2 Body::
+getPosition() const
+{
+  return body_->GetPosition();
+}
+
 void Body::
 render()
 {
