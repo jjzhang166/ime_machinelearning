@@ -6,11 +6,6 @@ namespace ga
 
 /**
  * Base class for genomes.
- * Genomes (usually) share this interface and basic attributes.
- * This is not used for polymorphism! GeneticAlgorithm works
- * with templates, new Genomes can be created simply by sharing
- * the interface GeneticAlgorithm needs, not by inheriting from
- * Genome.
  */
 class Genome
 {
@@ -54,3 +49,14 @@ protected:
 }
 
 #endif //GENETICALGORITHM_GENOME_H
+
+/**
+ * \class ga::Genome
+ * \ingroup genetics
+ *
+ * Genomes (usually) share this interface and basic attributes.
+ * This is not used for polymorphism! GeneticAlgorithm works
+ * with templates, new Genomes can be created simply by sharing
+ * the interface GeneticAlgorithm needs, not by inheriting from
+ * Genome.
+ */

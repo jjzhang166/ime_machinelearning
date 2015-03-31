@@ -20,6 +20,7 @@ void swapBuffers();
 void setCameraPosition(float x, float y);
 void setCameraWidth(float w);
 void setCameraHeight(float h);
+void moveCamera(float dx, float dy);
 void updateCamera();
 
 void setTime(double time);

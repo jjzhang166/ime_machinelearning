@@ -102,6 +102,13 @@ void setCameraHeight(float h)
   updateCamera();
 }
 
+void moveCamera(float dx, float dy)
+{
+  camera_x += dx;
+  camera_y += dy;
+  updateCamera();
+}
+
 void updateCamera()
 {
   // XXX(naum): Use modern pipeline?
