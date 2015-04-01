@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 2.8)
 
 project("IME Machine Learning")
 
+# set Modules path to find dependencies
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
+
 # For YouCompleteMe integration
 set(CMAKE_EXPORT_COMPILE_COMMANDS "ON")
 
@@ -31,4 +34,21 @@ endif()
 option(BUILD_CHALLENGES "ON to build challeges. OFF to ignore them." ON)
 if (BUILD_CHALLENGES)
   add_subdirectory(challenges)
+endif()
+
+# Graphical Client
+option(BUILD_CLIENT "ON to build graphical client. OFF to ignore them." ON)
+if (BUILD_CLIENT)
+  find_package(PkgConfig)
+  pkg_search_module(GLFW glfw3 REQUIRED)
+  find_package(Box2D REQUIRED)
+
+  if (GLFW_FOUND AND BOX2D_FOUND)
+    include_directories(${GLFW_INCLUDE_DIRS})
+    include_directories(${BOX2D_INCLUDE_DIRS})
+    add_subdirectory(client)
+  else()
+    message(SEND_ERROR "GLFW not found!")
+    set(BUILD_CLIENT OFF)
+  endif()
 endif()

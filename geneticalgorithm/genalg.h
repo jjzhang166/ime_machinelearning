@@ -84,8 +84,8 @@ GeneticAlgorithm(unsigned population_size,
   chromo_len_ {chromo_len},
   population_size_ {population_size},
   population_ {},
-  total_fitness_ {0.0},
   elite_size_ {elite_size},
+  total_fitness_ {0.0},
   mutation_rate_ {mutation_rate},
   crossover_rate_ {crossover_rate},
   fitnessFunc_ {fitnessFunc}
@@ -153,6 +153,9 @@ select()
       return population_[i];
     selected -= fitness;
   }
+
+  // NOTE(naum): Must not reach this return!!!
+  return population_[0];
 }
 
 template<typename G>
