@@ -40,4 +40,14 @@ void drawArc(float radius, float thickness, float angle, int divisions)
   glEnd();
 }
 
+void drawRect(float w, float h)
+{
+  glBegin(GL_QUADS);
+  glVertex3f(-w / 2,  h / 2, 0.f);
+  glVertex3f( w / 2,  h / 2, 0.f);
+  glVertex3f( w / 2, -h / 2, 0.f);
+  glVertex3f(-w / 2, -h / 2, 0.f);
+  glEnd();
+}
+
 }

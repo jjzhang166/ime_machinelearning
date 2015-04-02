@@ -14,14 +14,19 @@ void setKeyCallback(void (*key_callback)(GLFWwindow* window, int key, int scanco
 
 bool createWindow(int w, int h, const char* title);
 bool windowShouldClose();
+float getWindowWidth();
+float getWindowHeight();
+
 void pollEvents();
 void swapBuffers();
 
 void setCameraPosition(float x, float y);
-void setCameraWidth(float w);
+void getCameraWidth(float w);
 void setCameraHeight(float h);
 void moveCamera(float dx, float dy);
 void updateCamera();
+float setCameraWidth();
+float getCameraHeight();
 
 void setTime(double time);
 double getTime();

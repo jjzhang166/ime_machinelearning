@@ -11,6 +11,8 @@ void drawFilledCircle(float radius, int divisions = CIRCLE_DIVISIONS);
 void drawArc(float radius, float thickness, float angle, int divisions = CIRCLE_DIVISIONS);
 //void drawPolygon();
 
+void drawRect(float w, float h);
+
 }
 
 #endif //CLIENT_DRAW_H

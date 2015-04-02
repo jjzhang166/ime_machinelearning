@@ -70,6 +70,16 @@ bool windowShouldClose()
   return glfwWindowShouldClose(window);
 }
 
+float getWindowWidth()
+{
+  return window_w;
+}
+
+float getWindowHeight()
+{
+  return window_h;
+}
+
 void pollEvents()
 {
   glfwPollEvents();
@@ -118,6 +128,16 @@ void updateCamera()
           camera_y - camera_h / 2.f, camera_y + camera_h / 2.f,
           1.f, -1.f);
   glMatrixMode(GL_MODELVIEW);
+}
+
+float getCameraWidth()
+{
+  return camera_w;
+}
+
+float getCameraHeight()
+{
+  return camera_h;
 }
 
 void setTime(double time)
