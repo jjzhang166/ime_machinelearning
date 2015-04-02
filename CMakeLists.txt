@@ -33,12 +33,11 @@ if (BUILD_CLIENT)
     set(BUILD_CLIENT OFF)
   endif()
 
-  set (BOX2D_FOUND OFF)
   if (BOX2D_FOUND)
     include_directories(${BOX2D_INCLUDE_DIRS})
     set(PHYSICS_OK ON)
   else()
-    message(STATUS "Box2D not found. Building client without physics!")
+    message(STATUS "Box2D not found. Building client without physics (if possible)!")
   endif()
 endif()
 
