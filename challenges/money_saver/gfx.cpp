@@ -34,6 +34,7 @@ int main(int argc, char** argv)
 
   gfx::initialize();
   gfx::createWindow(500, 500, "Money Saver");
+  glClearColor(0.9f, 0.9f, 0.9f, 1.f);
 
   gfx::setTime(0);
   double timer = gfx::getTime();
@@ -70,7 +71,7 @@ void render(const Game& game)
       if (t == Terrain::WALL)
         glColor3f(0.f, 0.f, 1.f);
       else if (t == Terrain::BANK)
-        glColor3f(0.f, 1.f, 0.f);
+        glColor3f(0.f, 0.8f, 0.f);
       else if (t == Terrain::COIN)
         glColor3f(1.f, 1.f, 0.f);
       else if (t == Terrain::SAVER)
@@ -82,7 +83,7 @@ void render(const Game& game)
 
       glPushMatrix();
       glTranslatef(w * j + w / 2, gfx::getWindowHeight() - h * i - h / 2, 0.f);
-      gfx::drawRect(w, h);
+      gfx::drawRect(w * 0.9f, h * 0.9f);
       glPopMatrix();
     }
   }
