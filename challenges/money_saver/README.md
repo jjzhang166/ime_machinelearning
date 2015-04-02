@@ -61,15 +61,13 @@ cd bin/challenges/money_saver
 
 ####Graphical client
 #####Building with CMake
-Install GLFW 3
+Install GLFW 3  
 ``sudo apt-get install libglfw3``  
 
-On ime_machinelearning root folder, do the following:
-``
-mkdir build  
-cd build  
-cmake ..  
-make  
-cd bin/challenges/money_saver  
-./money_saver_gfx libsaverTemplate.so libthiefTemplate.so
-``
+On ime_machinelearning root folder, do the following:  
+> mkdir build  
+> cd build  
+> cmake ..  
+> make  
+> cd bin/challenges/money_saver  
+> ./money_saver_gfx libsaverTemplate.so libthiefTemplate.so
