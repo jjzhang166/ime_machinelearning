@@ -22,21 +22,29 @@ Thieves: have more money than the savers.
 - 1: Wall
 - 2: Coin
 - 3: Bank
-
 - 4: Money Saver
 - 5: Thief
 
 Example:
 
 0000000000
+
 0000000050
+
 0222222220
+
 0200000020
+
 0200330020
+
 0200330020
+
 0200000020
+
 0222222220
+
 0400000000
+
 0000000000
 
 ###Agents
