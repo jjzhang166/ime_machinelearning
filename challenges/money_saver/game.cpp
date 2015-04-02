@@ -4,7 +4,6 @@
 #include <string>
 #include <algorithm>
 
-#include "person.h"
 #include "game.h"
 
 
@@ -13,7 +12,7 @@ Game(const int n, const int m, const int vision_size) :
   turn_ {0}, bank_ {0}, coins_available_ {0}, n_ {n}, m_ {m}, vision_size_ {vision_size}
 {
   // TODO(naum): Generate random terrain
-  people_map_.resize(n_ * m_);
+  agent_map_.resize(n_ * m_);
   terrain_.resize(n_ * m_);
 
   auto v = 2 * vision_size_ + 1;
@@ -78,13 +77,13 @@ loadTerrainFromFile(FILE* file)
     {
       terrain_[i] = Terrain::NONE;
       savers_pos_.push_back(i);
-      people_map_[i] = Terrain::SAVER;
+      agent_map_[i] = Terrain::SAVER;
     }
     else if (t == Terrain::THIEF)
     {
       terrain_[i] = Terrain::NONE;
       thieves_pos_.push_back(i);
-      people_map_[i] = Terrain::THIEF;
+      agent_map_[i] = Terrain::THIEF;
     }
   }
 
@@ -102,7 +101,7 @@ loadPlayers(std::string saverfile,
   std::string saverstr = "./" + saverfile,
               thiefstr = "./" + thieffile;
 
-  Person* (*maker)(const int&, const int&, const int&);
+  Agent* (*maker)();
 
 #ifndef NDEBUG
   printf("Loading...\n");
@@ -120,7 +119,7 @@ loadPlayers(std::string saverfile,
   printf("Saver handle ok!\n");
 #endif
 
-  maker = (Person* (*)(const int&, const int&, const int&)) dlsym(saver_handle_, "maker");
+  maker = (Agent* (*)()) dlsym(saver_handle_, "maker");
 
   if (!maker)
   {
@@ -134,7 +133,7 @@ loadPlayers(std::string saverfile,
 
   for (unsigned i = 0; i < savers_pos_.size(); ++i)
   {
-    savers_.push_back(maker(n_, m_, vision_size_));
+    savers_.push_back(maker());
     savers_[i]->x_ = savers_pos_[i] % m_;
     savers_[i]->y_ = savers_pos_[i] / m_;
   }
@@ -156,7 +155,7 @@ loadPlayers(std::string saverfile,
   printf("Thief handle ok!\n");
 #endif
 
-  maker = (Person* (*)(const int&, const int&, const int&)) dlsym(thief_handle_, "maker");
+  maker = (Agent* (*)()) dlsym(thief_handle_, "maker");
   if (!maker)
   {
     fprintf(stderr, "Could not find make symbol: %s\n", dlerror());
@@ -169,7 +168,7 @@ loadPlayers(std::string saverfile,
 
   for (unsigned i = 0; i < thieves_pos_.size(); ++i)
   {
-    thieves_.push_back(maker(n_, m_, vision_size_));
+    thieves_.push_back(maker());
     thieves_[i]->x_ = thieves_pos_[i] % m_;
     thieves_[i]->y_ = thieves_pos_[i] / m_;
   }
@@ -203,7 +202,7 @@ step()
 }
 
 void Game::
-getVision(const Person* p)
+getVision(const Agent* p)
 {
   int x = p->x(),
       y = p->y();
@@ -221,7 +220,7 @@ getVision(const Person* p)
         vision_[i * s + j] = Terrain::WALL;
       else
       {
-        t = people_map_[py * m_ + px];
+        t = agent_map_[py * m_ + px];
         if (t == Terrain::NONE)
           vision_[i * s + j] = terrain_[py * m_ + px];
         else
@@ -232,7 +231,7 @@ getVision(const Person* p)
 }
 
 void Game::
-move(Person* p, Direction dir, bool is_saver)
+move(Agent* p, Direction dir, bool is_saver)
 {
   int x = p->x(),
       y = p->y();
@@ -275,20 +274,20 @@ move(Person* p, Direction dir, bool is_saver)
 }
 
 void Game::
-movePerson(Person* p, Direction dir, bool is_saver)
+movePerson(Agent* p, Direction dir, bool is_saver)
 {
-  people_map_[p->y() * m_ + p->x()] = Terrain::NONE;
+  agent_map_[p->y() * m_ + p->x()] = Terrain::NONE;
 
   if (dir == Direction::UP)        p->y_ = p->y_ - 1;
   else if (dir == Direction::DOWN) p->y_ = p->y_ + 1;
   else if (dir == Direction::LEFT) p->x_ = p->x_ - 1;
   else if (dir == Direction::RIGHT) p->x_ = p->x_ + 1;
 
-  people_map_[p->y() * m_ + p->x()] = (is_saver ? Terrain::SAVER :
+  agent_map_[p->y() * m_ + p->x()] = (is_saver ? Terrain::SAVER :
                                              Terrain::THIEF);
 }
 
-Person* Game::
+Agent* Game::
 getPersonByPosition(int x, int y)
 {
   for (unsigned i = 0; i < savers_.size(); ++i)

@@ -4,9 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "person.h"
-
-class Person;
+#include "agent.h"
 
 class Game
 {
@@ -28,10 +26,10 @@ public:
   const std::vector<Terrain> terrain() const { return terrain_; }
 
 private:
-  void getVision(const Person* p);
-  void move(Person* p, Direction dir, bool is_saver);
-  void movePerson(Person* p, Direction dir, bool is_saver);
-  Person* getPersonByPosition(int x, int y);
+  void getVision(const Agent* p);
+  void move(Agent* p, Direction dir, bool is_saver);
+  void movePerson(Agent* p, Direction dir, bool is_saver);
+  Agent* getPersonByPosition(int x, int y);
 
   int turn_;
   int bank_;
@@ -40,14 +38,14 @@ private:
   const int n_;
   const int m_;
   const int vision_size_;
-  std::vector<Terrain> people_map_;
+  std::vector<Terrain> agent_map_;
   std::vector<Terrain> terrain_;
   std::vector<Terrain> vision_;
 
   void* saver_handle_;
   void* thief_handle_;
   std::vector<int> savers_pos_, thieves_pos_;
-  std::vector<Person*> savers_, thieves_;
+  std::vector<Agent*> savers_, thieves_;
 };
 
 #endif //GAME_H

@@ -13,23 +13,15 @@ enum class Terrain
 
 class Game;
 
-class Person
+class Agent
 {
 public:
-  Person(const int& n, const int& m, const int& vision_size) :
-    n {n}, m {m}, vision_size {vision_size}, coins_ {0}
-  {}
-
-  virtual ~Person() =0;
+  virtual ~Agent() =0;
   virtual Direction walk(Terrain vision[]) =0;
 
   int x() const { return x_; }
   int y() const { return y_; }
   int coins() const { return coins_; }
-
-  const int& n;
-  const int& m;
-  const int& vision_size;
 private:
   int x_, y_;
   int coins_;
