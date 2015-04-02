@@ -1,2 +1,10 @@
-add_library(gfxclient gfx.cpp body.cpp world.cpp draw.cpp)
-target_link_libraries(gfxclient ${GLFW_STATIC_LIBRARIES} ${BOX2D_LIBRARIES})
+if (GRAPHICS_OK)
+  add_library(gfx gfx.cpp draw.cpp)
+  target_link_libraries(gfx ${GLFW_STATIC_LIBRARIES})
+endif()
+
+if (GRAPHICS_OK AND PHYSICS_OK)
+  message(STATUS "Building client ok!")
+  add_library(client body.cpp world.cpp)
+  target_link_libraries(client gfx ${BOX2D_LIBRARIES})
+endif()
