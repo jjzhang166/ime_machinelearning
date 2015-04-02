@@ -17,7 +17,7 @@ class Agent
 {
 public:
   virtual ~Agent() =0;
-  virtual Direction walk(Terrain vision[]) =0;
+  virtual Direction walk(Terrain vision[], int vision_size) =0;
 
   int x() const { return x_; }
   int y() const { return y_; }

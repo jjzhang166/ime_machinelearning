@@ -187,14 +187,14 @@ step()
   for (unsigned i = 0; i < savers_.size(); ++i)
   {
     getVision(savers_[i]);
-    Direction dir = savers_[i]->walk(&vision_[0]);
+    Direction dir = savers_[i]->walk(&vision_[0], vision_size_);
     move(savers_[i], dir, true);
   }
 
   for (unsigned i = 0; i < thieves_.size(); ++i)
   {
     getVision(thieves_[i]);
-    Direction dir = thieves_[i]->walk(&vision_[0]);
+    Direction dir = thieves_[i]->walk(&vision_[0], vision_size_);
     move(thieves_[i], dir, false);
   }
 
