@@ -45,19 +45,17 @@ Savers and thieves are intelligent agents.
 Clients
 -------
 ###Building with CMake
-Install CMake
+Install CMake  
 ``sudo apt-get install cmake``
 
 ####Normal client
-On ime_machinelearning root folder, do the following:
-``
-mkdir build  
-cd build  
-cmake ..  
-make  
-cd bin/challenges/money_saver  
-./money_saver libsaverTemplate.so libthiefTemplate.so
-``
+On ime_machinelearning root folder, do the following:  
+>  mkdir build  
+>  cd build  
+>  cmake ..  
+>  make  
+>  cd bin/challenges/money_saver  
+>  ./money_saver libsaverTemplate.so libthiefTemplate.so
 
 ####Graphical client
 #####Building with CMake
