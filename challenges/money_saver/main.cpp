@@ -19,8 +19,6 @@ int main(int argc, char** argv)
     return 1;
   }
 
-  game.setVisionSize(1);
-
   if (game.loadPlayers(argv[1], argv[2]))
     printf("Players loaded!\n");
   else
