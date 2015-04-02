@@ -11,23 +11,20 @@ int main(int argc, char** argv)
   }
 
   Game game;
-  if (game.loadTerrain("terrain.map"))
-    printf("Terrain loaded!\n");
-  else
+  if (!game.loadTerrain("terrain.map"))
   {
     printf("Error loading terrain!\n");
     return 1;
   }
 
-  if (game.loadPlayers(argv[1], argv[2]))
-    printf("Players loaded!\n");
-  else
+  if (!game.loadPlayers(argv[1], argv[2]))
   {
     printf("Error loading players!\n");
     return 1;
   }
 
-  for (int t = 0; t < 10; ++t)
+  int max_turns = 200;
+  for (int t = 0; t < max_turns; ++t)
   {
     auto terrain = game.terrain();
     printf("*");
@@ -66,6 +63,12 @@ int main(int argc, char** argv)
 
     game.step();
   }
+
+  printf("Winner: ");
+  auto w = game.winning();
+  if (w == Winner::SAVERS)       printf("Saviers\n");
+  else if (w == Winner::THIEVES) printf("Thieves\n");
+  else                           printf("Draw\n");
 
   return 0;
 }

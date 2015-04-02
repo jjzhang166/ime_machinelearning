@@ -338,3 +338,21 @@ getAgentByPosition(int x, int y)
       return thieves_[i];
   return nullptr;
 }
+
+Winner Game::
+winning() const
+{
+  int savers_money = 0,
+      thieves_money = 0;
+  for (unsigned i = 0; i < savers_.size(); ++i)
+    savers_money += savers_[i]->coins();
+  for (unsigned i = 0; i < thieves_.size(); ++i)
+    thieves_money += thieves_[i]->coins();
+
+  if      (savers_money > thieves_money)
+    return Winner::SAVERS;
+  else if (savers_money < thieves_money)
+    return Winner::THIEVES;
+  else
+    return Winner::DRAW;
+}

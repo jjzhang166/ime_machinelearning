@@ -16,17 +16,13 @@ int main(int argc, char** argv)
   }
 
   Game game;
-  if (game.loadTerrain("terrain.map"))
-    printf("Terrain loaded!\n");
-  else
+  if (!game.loadTerrain("terrain.map"))
   {
     printf("Error loading terrain!\n");
     return 1;
   }
 
-  if (game.loadPlayers(argv[1], argv[2]))
-    printf("Players loaded!\n");
-  else
+  if (!game.loadPlayers(argv[1], argv[2]))
   {
     printf("Error loading players!\n");
     return 1;
@@ -36,21 +32,30 @@ int main(int argc, char** argv)
   gfx::createWindow(500, 500, "Money Saver");
   glClearColor(0.9f, 0.9f, 0.9f, 1.f);
 
+  int max_turns = 200;
+
   gfx::setTime(0);
   double timer = gfx::getTime();
-  while (!gfx::windowShouldClose())
+  double time_step = 0.2;
+  while (!gfx::windowShouldClose() && game.turn() < max_turns)
   {
     render(game);
 
-    while (gfx::getTime() - timer >= 0.5)
+    while (gfx::getTime() - timer >= time_step)
     {
       game.step();
-      timer += 0.5;
+      timer += time_step;
     }
 
     gfx::pollEvents();
     gfx::swapBuffers();
   }
+
+  printf("Winner: ");
+  auto w = game.winning();
+  if      (w == Winner::SAVERS)  printf("Saviers\n");
+  else if (w == Winner::THIEVES) printf("Thieves\n");
+  else                           printf("Draw\n");
 
   return 0;
 }

@@ -6,6 +6,8 @@
 
 #include "agent.h"
 
+enum class Winner { DRAW, SAVERS, THIEVES };
+
 class Game
 {
 public:
@@ -27,8 +29,10 @@ public:
 
   const std::vector<Terrain> terrain() const;
 
-  const int n() const { return n_; }
-  const int m() const { return m_; }
+  int n() const { return n_; }
+  int m() const { return m_; }
+
+  Winner winning() const;
 
 private:
   void getVision(const Agent* p);
