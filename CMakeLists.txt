@@ -17,25 +17,6 @@ set(RUNTIME_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_DEBUG_POSTFIX -d)
 
-add_subdirectory(utils)
-add_subdirectory(neuralnetwork)
-add_subdirectory(geneticalgorithm)
-
-option(BUILD_DOCUMENTATION "ON to build documentation. OFF to ignore them." OFF)
-if (BUILD_DOCUMENTATION)
-  add_subdirectory(doc)
-endif()
-
-option(BUILD_EXAMPLES "ON to build examples. OFF to ignore them." ON)
-if (BUILD_EXAMPLES)
-  add_subdirectory(examples)
-endif()
-
-option(BUILD_CHALLENGES "ON to build challeges. OFF to ignore them." ON)
-if (BUILD_CHALLENGES)
-  add_subdirectory(challenges)
-endif()
-
 # Graphical Client
 option(BUILD_CLIENT "ON to build graphical client. OFF to ignore them." ON)
 if (BUILD_CLIENT)
@@ -60,6 +41,26 @@ if (BUILD_CLIENT)
   endif()
 endif()
 
+option(BUILD_DOCUMENTATION "ON to build documentation. OFF to ignore them." OFF)
+if (BUILD_DOCUMENTATION)
+  add_subdirectory(doc)
+endif()
+
+option(BUILD_EXAMPLES "ON to build examples. OFF to ignore them." ON)
+if (BUILD_EXAMPLES)
+  add_subdirectory(examples)
+endif()
+
+option(BUILD_CHALLENGES "ON to build challeges. OFF to ignore them." ON)
+if (BUILD_CHALLENGES)
+  add_subdirectory(challenges)
+endif()
+
+
 if (BUILD_CLIENT)
   add_subdirectory(client)
 endif()
+
+add_subdirectory(utils)
+add_subdirectory(neuralnetwork)
+add_subdirectory(geneticalgorithm)
