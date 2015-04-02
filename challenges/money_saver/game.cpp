@@ -255,44 +255,48 @@ move(Agent* p, Direction dir, bool is_saver)
   int x = p->x(),
       y = p->y();
 
-  Terrain tile = Terrain::INVALID,
-          agent_tile = Terrain::INVALID;
+  Terrain* tile = nullptr;
+  Terrain agent_tile = Terrain::INVALID;
+
   if (dir == Direction::UP && y > 0) // UP
   {
-    tile = terrain_[(y-1) * m_ + x];
+    tile       = &terrain_ [(y-1) * m_ + x];
     agent_tile = agent_map_[(y-1) * m_ + x];
   }
   else if (dir == Direction::DOWN && y < n_ - 1) // DOWN
   {
-    tile = terrain_[(y+1) * m_ + x];
+    tile       = &terrain_ [(y+1) * m_ + x];
     agent_tile = agent_map_[(y+1) * m_ + x];
   }
   else if (dir == Direction::LEFT && x > 0) // LEFT
   {
-    tile = terrain_[y * m_ + x-1];
+    tile       = &terrain_ [y * m_ + x-1];
     agent_tile = agent_map_[y * m_ + x-1];
   }
-  else if (dir == Direction::RIGHT) // RIGHT
+  else if (dir == Direction::RIGHT && x < m_ - 1) // RIGHT
   {
-    tile = terrain_[y * m_ + x+1];
+    tile       = &terrain_ [y * m_ + x+1];
     agent_tile = agent_map_[y * m_ + x+1];
   }
 
 
-  if (tile == Terrain::NONE && agent_tile == Terrain::NONE)
+  if (!tile)
+    return;
+
+  if (*tile == Terrain::NONE && agent_tile == Terrain::NONE)
     moveAgent(p, dir, is_saver);
   else if (is_saver)
   {
     if (agent_tile == Terrain::THIEF)
       return;
 
-    if (tile == Terrain::COIN)
+    if (*tile == Terrain::COIN)
     {
       p->coins_++;
-      terrain_[y * m_ + x] = Terrain::NONE;
+      *tile = Terrain::NONE;
       moveAgent(p, dir, true);
     }
-    else if (tile == Terrain::BANK)
+    else if (*tile == Terrain::BANK)
     {
       bank_ += p->coins();
       p->coins_ = 0;
@@ -307,7 +311,7 @@ move(Agent* p, Direction dir, bool is_saver)
       s->coins_ = 0;
     }
 
-    if (tile == Terrain::COIN)
+    if (*tile == Terrain::COIN)
       moveAgent(p, dir, false);
   }
 }

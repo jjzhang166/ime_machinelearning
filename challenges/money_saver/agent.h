@@ -3,12 +3,12 @@
 
 enum class Direction
 {
-  UP, DOWN, LEFT, RIGHT
+  NONE, UP, DOWN, LEFT, RIGHT, NUM_DIRECTIONS
 };
 
 enum class Terrain
 {
-  NONE, WALL, COIN, BANK, SAVER, THIEF, INVALID
+  NONE, WALL, COIN, BANK, SAVER, THIEF, INVALID, NUM_TERRAINS
 };
 
 class Game;
