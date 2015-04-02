@@ -66,7 +66,7 @@ int main(int argc, char** argv)
 
   printf("Winner: ");
   auto w = game.winning();
-  if (w == Winner::SAVERS)       printf("Saviers\n");
+  if (w == Winner::SAVERS)       printf("Savers\n");
   else if (w == Winner::THIEVES) printf("Thieves\n");
   else                           printf("Draw\n");
 
