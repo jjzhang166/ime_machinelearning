@@ -9,7 +9,8 @@
 
 Game::
 Game() :
-  turn_ {0}, bank_ {0}, coins_available_ {0}, n_ {0}, m_ {0}, vision_size_ {1}
+  turn_ {0}, bank_ {0}, coins_available_ {0}, n_ {0}, m_ {0}, vision_size_ {1},
+  saver_handle_ {nullptr}, thief_handle_ {nullptr}
 {
   // TODO(naum): Generate random terrain
 }
