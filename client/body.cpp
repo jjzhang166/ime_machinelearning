@@ -14,7 +14,9 @@ namespace gfx
 
 Body::
 Body(World& world, float x, float y, float angle) :
-  world_ {world}, active_ {false}
+  //world_ {world}, active_ {false}
+  // FIXME(naum): g++ bug... With clang++ we get no errors
+  world_ (world), active_ {false}
 {
   world_.registerBody(this);
 
