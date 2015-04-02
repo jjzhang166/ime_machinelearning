@@ -13,6 +13,8 @@ Game() :
   saver_handle_ {nullptr}, thief_handle_ {nullptr}
 {
   // TODO(naum): Generate random terrain
+  auto v = 2 * vision_size_ + 1;
+  vision_.resize(v * v);
 }
 
 Game::
