@@ -13,6 +13,7 @@ Game(const int n, const int m, const int vision_size) :
   turn_ {0}, bank_ {0}, coins_available_ {0}, n_ {n}, m_ {m}, vision_size_ {vision_size}
 {
   // TODO(naum): Generate random terrain
+  people_map_.resize(n_ * m_);
   terrain_.resize(n_ * m_);
 
   auto v = 2 * vision_size_ + 1;
@@ -60,7 +61,8 @@ bool Game::
 loadTerrainFromFile(FILE* file)
 {
   bool okay = true;
-  int t;
+  int a;
+  Terrain t;
   for (int i = 0; i < n_ * m_; ++i)
   {
     if (std::feof(file))
@@ -69,12 +71,21 @@ loadTerrainFromFile(FILE* file)
       break;
     }
 
-    fscanf(file, "%1d", &t);
-    terrain_[i] = static_cast<Terrain>(t);
-    if (terrain_[i] == Terrain::SAVER)
+    fscanf(file, "%1d", &a);
+    t = static_cast<Terrain>(a);
+    terrain_[i] = t;
+    if (t == Terrain::SAVER)
+    {
+      terrain_[i] = Terrain::NONE;
       savers_pos_.push_back(i);
-    else if (terrain_[i] == Terrain::THIEF)
+      people_map_[i] = Terrain::SAVER;
+    }
+    else if (t == Terrain::THIEF)
+    {
+      terrain_[i] = Terrain::NONE;
       thieves_pos_.push_back(i);
+      people_map_[i] = Terrain::THIEF;
+    }
   }
 
   return okay;
@@ -198,6 +209,7 @@ getVision(const Person* p)
       y = p->y();
   int s = 2 * vision_size_ + 1;
 
+  Terrain t;
   for (int i = 0; i < 2 * vision_size_ + 1; ++i)
   {
     for (int j = 0; j < 2 * vision_size_ + 1; ++j)
@@ -208,7 +220,13 @@ getVision(const Person* p)
           px < 0 || px >= m_)
         vision_[i * s + j] = Terrain::WALL;
       else
-        vision_[i * s + j] = terrain_[py * m_ + px];
+      {
+        t = people_map_[py * m_ + px];
+        if (t == Terrain::NONE)
+          vision_[i * s + j] = terrain_[py * m_ + px];
+        else
+          vision_[i * s + j] = t;
+      }
     }
   }
 }
@@ -259,14 +277,14 @@ move(Person* p, Direction dir, bool is_saver)
 void Game::
 movePerson(Person* p, Direction dir, bool is_saver)
 {
-  terrain_[p->y() * m_ + p->x()] = Terrain::NONE;
+  people_map_[p->y() * m_ + p->x()] = Terrain::NONE;
 
   if (dir == Direction::UP)        p->y_ = p->y_ - 1;
   else if (dir == Direction::DOWN) p->y_ = p->y_ + 1;
   else if (dir == Direction::LEFT) p->x_ = p->x_ - 1;
   else if (dir == Direction::RIGHT) p->x_ = p->x_ + 1;
 
-  terrain_[p->y() * m_ + p->x()] = (is_saver ? Terrain::SAVER :
+  people_map_[p->y() * m_ + p->x()] = (is_saver ? Terrain::SAVER :
                                              Terrain::THIEF);
 }
 

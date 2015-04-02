@@ -40,6 +40,7 @@ private:
   const int n_;
   const int m_;
   const int vision_size_;
+  std::vector<Terrain> people_map_;
   std::vector<Terrain> terrain_;
   std::vector<Terrain> vision_;
 
