@@ -21,21 +21,21 @@ Game::
 ~Game()
 {
 #ifndef NDEBUG
-  printf("Deleting...\n");
+  printf("[GAME] Deleting...\n");
 #endif
 
   if (saver_handle_)
     dlclose(saver_handle_);
 
 #ifndef NDEBUG
-  printf("Saver handle ok!\n");
+  printf("[GAME] Saver handle deleted!\n");
 #endif
 
   if (thief_handle_)
     dlclose(thief_handle_);
 
 #ifndef NDEBUG
-  printf("Thief handle ok!\n");
+  printf("[GAME] Thief handle deleted!\n");
 #endif
 }
 
@@ -106,17 +106,13 @@ bool Game::
 loadPlayers(std::string saverfile,
             std::string thieffile)
 {
-#ifndef NDEBUG
-  printf("Loading players called\n");
-#endif
-
   std::string saverstr = "./" + saverfile,
               thiefstr = "./" + thieffile;
 
   Agent* (*maker)();
 
 #ifndef NDEBUG
-  printf("Loading...\n");
+  printf("[GAME] Loading players...\n");
 #endif
 
   // Saver
@@ -128,7 +124,7 @@ loadPlayers(std::string saverfile,
   }
 
 #ifndef NDEBUG
-  printf("Saver handle ok!\n");
+  printf("[GAME] Saver handle ok!\n");
 #endif
 
   maker = (Agent* (*)()) dlsym(saver_handle_, "maker");
@@ -140,7 +136,7 @@ loadPlayers(std::string saverfile,
   }
 
 #ifndef NDEBUG
-  printf("Saver maker ok!\n");
+  printf("[GAME] Saver maker ok!\n");
 #endif
 
   for (unsigned i = 0; i < savers_pos_.size(); ++i)
@@ -152,7 +148,7 @@ loadPlayers(std::string saverfile,
   savers_pos_.clear();
 
 #ifndef NDEBUG
-  printf("All savers ok!\n");
+  printf("[GAME] All savers created!\n");
 #endif
 
   // Thief
@@ -164,7 +160,7 @@ loadPlayers(std::string saverfile,
   }
 
 #ifndef NDEBUG
-  printf("Thief handle ok!\n");
+  printf("[GAME] Thief handle ok!\n");
 #endif
 
   maker = (Agent* (*)()) dlsym(thief_handle_, "maker");
@@ -175,7 +171,7 @@ loadPlayers(std::string saverfile,
   }
 
 #ifndef NDEBUG
-  printf("Thief maker ok!\n");
+  printf("[GAME] Thief maker ok!\n");
 #endif
 
   for (unsigned i = 0; i < thieves_pos_.size(); ++i)
@@ -187,7 +183,8 @@ loadPlayers(std::string saverfile,
   thieves_pos_.clear();
 
 #ifndef NDEBUG
-  printf("All thieves ok!\n");
+  printf("[GAME] All thieves created!\n");
+  printf("[GAME] Loading complete!\n");
 #endif
 
   return true;
