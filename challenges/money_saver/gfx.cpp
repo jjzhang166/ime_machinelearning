@@ -69,15 +69,15 @@ void render(const Game& game)
       auto t = terrain[i * game.m() + j];
 
       if (t == Terrain::WALL)
-        glColor3f(0.f, 0.f, 1.f);
+        glColor3f(0.f, 0.f, 0.f);
       else if (t == Terrain::BANK)
         glColor3f(0.f, 0.8f, 0.f);
       else if (t == Terrain::COIN)
         glColor3f(1.f, 1.f, 0.f);
       else if (t == Terrain::SAVER)
-        glColor3f(0.f, 0.f, 0.f);
-      else if (t == Terrain::THIEF)
         glColor3f(0.f, 0.f, 1.f);
+      else if (t == Terrain::THIEF)
+        glColor3f(1.f, 0.f, 0.f);
       else
         glColor3f(1.f, 1.f, 1.f);
 
