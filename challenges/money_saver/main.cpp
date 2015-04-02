@@ -10,11 +10,7 @@ int main(int argc, char** argv)
     return 1;
   }
 
-  int n = 10,
-      m = 10,
-      v = 1;
-
-  Game game {n, m, v};
+  Game game;
   if (game.loadTerrain("terrain.map"))
     printf("Terrain loaded!\n");
   else
@@ -22,6 +18,8 @@ int main(int argc, char** argv)
     printf("Error loading terrain!\n");
     return 1;
   }
+
+  game.setVisionSize(1);
 
   if (game.loadPlayers(argv[1], argv[2]))
     printf("Players loaded!\n");
@@ -34,15 +32,18 @@ int main(int argc, char** argv)
   for (int t = 0; t < 10; ++t)
   {
     auto terrain = game.terrain();
-    for (int i = 0; i < m; ++i)
+    printf("*");
+    for (int i = 0; i < game.m(); ++i)
       printf("-");
+    printf("*");
     printf("\n");
 
-    for (int i = 0; i < n; ++i)
+    for (int i = 0; i < game.n(); ++i)
     {
-      for (int j = 0; j < m; ++j)
+      printf("|");
+      for (int j = 0; j < game.m(); ++j)
       {
-        auto t = terrain[i * m + j];
+        auto t = terrain[i * game.m() + j];
         if (t == Terrain::NONE)
           printf(" ");
         else if (t == Terrain::WALL)
@@ -56,10 +57,13 @@ int main(int argc, char** argv)
         else if (t == Terrain::THIEF)
           printf("T");
       }
+      printf("|");
       printf("\n");
     }
-    for (int i = 0; i < m; ++i)
+    printf("*");
+    for (int i = 0; i < game.m(); ++i)
       printf("-");
+    printf("*");
     printf("\n\n");
 
     game.step();

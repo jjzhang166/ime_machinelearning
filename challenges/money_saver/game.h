@@ -9,8 +9,10 @@
 class Game
 {
 public:
-  Game(const int n, const int m, const int vision_size);
+  Game();
   ~Game();
+
+  void setVisionSize(int vision_size);
 
   bool loadTerrain(const char* filename);
   bool loadTerrainFromFile(FILE* file);
@@ -23,21 +25,24 @@ public:
   int turn() const { return turn_; }
   int coins_available() const { return coins_available_; }
 
-  const std::vector<Terrain> terrain() const { return terrain_; }
+  const std::vector<Terrain> terrain() const;
+
+  const int n() const { return n_; }
+  const int m() const { return m_; }
 
 private:
   void getVision(const Agent* p);
   void move(Agent* p, Direction dir, bool is_saver);
-  void movePerson(Agent* p, Direction dir, bool is_saver);
-  Agent* getPersonByPosition(int x, int y);
+  void moveAgent(Agent* p, Direction dir, bool is_saver);
+  Agent* getAgentByPosition(int x, int y);
 
   int turn_;
   int bank_;
   int coins_available_;
 
-  const int n_;
-  const int m_;
-  const int vision_size_;
+  int n_;
+  int m_;
+  int vision_size_;
   std::vector<Terrain> agent_map_;
   std::vector<Terrain> terrain_;
   std::vector<Terrain> vision_;

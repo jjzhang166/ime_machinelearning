@@ -8,15 +8,10 @@
 
 
 Game::
-Game(const int n, const int m, const int vision_size) :
-  turn_ {0}, bank_ {0}, coins_available_ {0}, n_ {n}, m_ {m}, vision_size_ {vision_size}
+Game() :
+  turn_ {0}, bank_ {0}, coins_available_ {0}, n_ {0}, m_ {0}, vision_size_ {0}
 {
   // TODO(naum): Generate random terrain
-  agent_map_.resize(n_ * m_);
-  terrain_.resize(n_ * m_);
-
-  auto v = 2 * vision_size_ + 1;
-  vision_.resize(v * v);
 }
 
 Game::
@@ -41,6 +36,15 @@ Game::
 #endif
 }
 
+void Game::
+setVisionSize(int vision_size)
+{
+  vision_size_ = vision_size;
+
+  auto v = 2 * vision_size_ + 1;
+  vision_.resize(v * v);
+}
+
 bool Game::
 loadTerrain(const char* filename)
 {
@@ -59,6 +63,11 @@ loadTerrain(const char* filename)
 bool Game::
 loadTerrainFromFile(FILE* file)
 {
+  fscanf(file, "%d%d", &n_, &m_);
+
+  agent_map_.resize(n_ * m_);
+  terrain_.resize(n_ * m_);
+
   bool okay = true;
   int a;
   Terrain t;
@@ -201,6 +210,16 @@ step()
   turn_++;
 }
 
+const std::vector<Terrain> Game::
+terrain() const
+{
+  std::vector<Terrain> t = terrain_;
+  for (int i = 0; i < n_ * m_; ++i)
+    if (agent_map_[i] != Terrain::NONE)
+      t[i] = agent_map_[i];
+  return t;
+}
+
 void Game::
 getVision(const Agent* p)
 {
@@ -236,25 +255,42 @@ move(Agent* p, Direction dir, bool is_saver)
   int x = p->x(),
       y = p->y();
 
-  Terrain tile = Terrain::INVALID;
+  Terrain tile = Terrain::INVALID,
+          agent_tile = Terrain::INVALID;
   if (dir == Direction::UP && y > 0) // UP
+  {
     tile = terrain_[(y-1) * m_ + x];
+    agent_tile = agent_map_[(y-1) * m_ + x];
+  }
   else if (dir == Direction::DOWN && y < n_ - 1) // DOWN
+  {
     tile = terrain_[(y+1) * m_ + x];
+    agent_tile = agent_map_[(y+1) * m_ + x];
+  }
   else if (dir == Direction::LEFT && x > 0) // LEFT
+  {
     tile = terrain_[y * m_ + x-1];
+    agent_tile = agent_map_[y * m_ + x-1];
+  }
   else if (dir == Direction::RIGHT) // RIGHT
+  {
     tile = terrain_[y * m_ + x+1];
+    agent_tile = agent_map_[y * m_ + x+1];
+  }
 
 
-  if (tile == Terrain::NONE)
-    movePerson(p, dir, is_saver);
+  if (tile == Terrain::NONE && agent_tile == Terrain::NONE)
+    moveAgent(p, dir, is_saver);
   else if (is_saver)
   {
+    if (agent_tile == Terrain::THIEF)
+      return;
+
     if (tile == Terrain::COIN)
     {
       p->coins_++;
-      movePerson(p, dir, true);
+      terrain_[y * m_ + x] = Terrain::NONE;
+      moveAgent(p, dir, true);
     }
     else if (tile == Terrain::BANK)
     {
@@ -264,17 +300,20 @@ move(Agent* p, Direction dir, bool is_saver)
   }
   else if (!is_saver)
   {
-    if (tile == Terrain::SAVER)
+    if (agent_tile == Terrain::SAVER)
     {
-      auto s = getPersonByPosition(x, y);
-      p->coins_ = s->coins();
+      auto s = getAgentByPosition(x, y);
+      p->coins_ += s->coins();
       s->coins_ = 0;
     }
+
+    if (tile == Terrain::COIN)
+      moveAgent(p, dir, false);
   }
 }
 
 void Game::
-movePerson(Agent* p, Direction dir, bool is_saver)
+moveAgent(Agent* p, Direction dir, bool is_saver)
 {
   agent_map_[p->y() * m_ + p->x()] = Terrain::NONE;
 
@@ -288,7 +327,7 @@ movePerson(Agent* p, Direction dir, bool is_saver)
 }
 
 Agent* Game::
-getPersonByPosition(int x, int y)
+getAgentByPosition(int x, int y)
 {
   for (unsigned i = 0; i < savers_.size(); ++i)
     if (savers_[i]->x() == x && savers_[i]->y() == y)
