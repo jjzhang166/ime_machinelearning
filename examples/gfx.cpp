@@ -8,11 +8,10 @@ int main()
   if (!gfx::createWindow(640, 480, "Gfx Example"))
     return 2;
 
-  gfx::setTime(0.0);
-
+  auto timebegin = gfx::getTime();
   while (!gfx::windowShouldClose())
   {
-    gfx::setCameraPosition(10 * gfx::getTime(), 0);
+    gfx::setCameraPosition(10 * (gfx::getTime() - timebegin), 0);
 
     glLoadIdentity();
     glBegin(GL_TRIANGLES);
