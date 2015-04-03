@@ -29,7 +29,7 @@ int main(int argc, char** argv)
   }
 
   gfx::initialize();
-  gfx::createWindow(500, 500, "Money Saver");
+  gfx::createWindow(640, 640, "Money Saver");
   glClearColor(0.9f, 0.9f, 0.9f, 1.f);
 
   int max_turns = 200;
@@ -68,13 +68,14 @@ int main(int argc, char** argv)
     render(game);
 
     // GUI
+    // Game Options
     {
-      if (ImGui::Begin("Game Options", nullptr, {270,80}, 0.8f,
+      if (ImGui::Begin("Game Options", nullptr, {0,0}, 0.8f,
                        ImGuiWindowFlags_NoResize |
                        ImGuiWindowFlags_NoMove))
       {
         ImGui::SetWindowPos({0, 0}, ImGuiSetCond_FirstUseEver);
-        ImGui::SetWindowSize({0, 0}, ImGuiSetCond_FirstUseEver);
+        //ImGui::SetWindowSize({0, 0}, ImGuiSetCond_FirstUseEver);
 
         if (ImGui::SmallButton(playing ? "Stop" : "Play"))
         {
@@ -82,7 +83,8 @@ int main(int argc, char** argv)
           //if (playing)
           //  ImGui::SetWindowCollapsed(true);
         }
-        ImGui::SliderFloat("Time step", &time_step, 0.f, 1.f);
+        //ImGui::SliderFloat("Time step", &time_step, 0.f, 1.f);
+        ImGui::InputFloat("Time step", &time_step, 0.010f, 0.100f, 3);
         ImGui::InputInt("Max turns", &max_turns);
 
         ImGui::Text("Turn: %3d", game.turn());
@@ -112,6 +114,25 @@ int main(int argc, char** argv)
       ImGui::End();
     }
 
+    // Winner announcement
+    if (game.turn() == max_turns)
+    {
+      if (ImGui::Begin("WINNER", nullptr, {80, 40}, 0.8f,
+                   ImGuiWindowFlags_NoMove |
+                   ImGuiWindowFlags_NoResize |
+                   ImGuiWindowFlags_NoCollapse))
+      {
+        ImGui::SetWindowPos({gfx::getWindowWidth() - ImGui::GetWindowSize().x, 0});
+        auto winner = game.winning();
+        ImGui::Text(winner == Winner::SAVERS  ? "SAVERS" :
+                    winner == Winner::THIEVES ? "THIEVES" :
+                                                "DRAW");
+      }
+      ImGui::End();
+    }
+
+    // -------
+
     gfx::swapBuffers();
   }
 
@@ -128,13 +149,22 @@ void render(const Game& game)
 {
   float w = gfx::getWindowWidth() / game.m(),
         h = gfx::getWindowHeight() / game.n();
+  float offsetx = 0.f,
+        offsety = 0.f;
+
+  if (w > h)
+    w = h;
+  else
+    h = w;
+
+  offsetx = gfx::getWindowWidth() - game.m() * w; offsetx /= 2.f;
+  offsety = gfx::getWindowWidth() - game.n() * h; offsety /= 2.f; offsety *= -1;
 
   auto terrain = game.terrain();
   for (int i = 0; i < game.n(); ++i)
   {
     for (int j = 0; j < game.m(); ++j)
     {
-      //printf("%d", terrain[i * m + j]);
       auto t = terrain[i * game.m() + j];
 
       if (t == Terrain::WALL)
@@ -151,7 +181,9 @@ void render(const Game& game)
         glColor3f(1.f, 1.f, 1.f);
 
       glPushMatrix();
-      glTranslatef(w * j + w / 2, gfx::getWindowHeight() - h * i - h / 2, 0.f);
+      glTranslatef(offsetx + w * j + w / 2,
+                   offsety + gfx::getWindowHeight() - h * i - h / 2,
+                   0.f);
       gfx::drawRect(w * 0.9f, h * 0.9f);
       glPopMatrix();
     }
