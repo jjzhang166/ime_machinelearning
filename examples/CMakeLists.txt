@@ -8,6 +8,7 @@ add_example(ga_value_float_example ga_value_float.cpp genalg)
 
 if (BUILD_CLIENT)
   add_example(gfx_example gfx.cpp gfx)
+  add_example(gui_example gui.cpp gfx)
   if (PHYSICS_OK)
     add_example(client_example client.cpp client)
   endif()

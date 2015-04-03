@@ -3,13 +3,15 @@
 
 #include <GLFW/glfw3.h>
 
+#include "client/gui/imgui.h"
+
 namespace gfx
 {
 
 bool initialize();
 void terminate();
 
-void setErrorCallback(void (*error_callback)(int error, const char* description));
+//void setErrorCallback(void (*error_callback)(int error, const char* description));
 void setKeyCallback(void (*key_callback)(GLFWwindow* window, int key, int scancode, int action, int mods));
 
 bool createWindow(int w, int h, const char* title);
@@ -28,7 +30,7 @@ void updateCamera();
 float setCameraWidth();
 float getCameraHeight();
 
-void setTime(double time);
+//void setTime(double time);
 double getTime();
 
 }

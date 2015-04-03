@@ -29,13 +29,13 @@ int main()
     ground.addShape(&poly);
   }
 
-  gfx::setTime(0.0);
+  auto timer = gfx::getTime();
   while (!gfx::windowShouldClose())
   {
-    if (gfx::getTime() >= world.getTimeStep())
+    if (gfx::getTime() - timer >= world.getTimeStep())
     {
       world.step();
-      gfx::setTime(0.0);
+      timer = gfx::getTime();
     }
 
     world.render();

@@ -34,7 +34,6 @@ int main(int argc, char** argv)
 
   int max_turns = 200;
 
-  gfx::setTime(0);
   double timer = gfx::getTime();
   double time_step = 0.2;
   while (!gfx::windowShouldClose() && game.turn() < max_turns)

@@ -1,13 +1,12 @@
 #include <cstdio>
 #include <cmath>
 
-#include "client/draw.h"
-#include "client/body.h"
-#include "client/world.h"
-
 #include <Box2D/Box2D.h>
 
 #include "client/gfx.h"
+#include "client/draw.h"
+#include "client/physics/body.h"
+#include "client/physics/world.h"
 
 namespace gfx
 {
