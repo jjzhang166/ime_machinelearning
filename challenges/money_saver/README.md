@@ -70,7 +70,7 @@ Install GLFW
 
 On ime_machinelearning root folder, do the following:
 
-```
+```sh
 mkdir build
 cd build
 cmake .
