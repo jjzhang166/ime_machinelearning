@@ -66,17 +66,45 @@ Example:
 
 > vision_size = 1
 
-| 0 | 1 | 2 |
-| 3 | 4 | 5 |
-| 6 | 7 | 8 |
+<table>
+  <tr>
+    <td>0</td>
+    <td>1</td>
+    <td>2</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>4</td>
+    <td>5</td>
+  </tr>
+  <tr>
+    <td>6</td>
+    <td>7</td>
+    <td>8</td>
+  </tr>
+</table>
 
 - Position 4: Agent
 
 Valid vision:
 
-| WALL | NONE  | BANK  |
-| WALL | SAVER | COIN  |
-| COIN | WALL  | THIEF |
+<table>
+  <tr>
+    <td>WALL</td>
+    <td>NONE</td>
+    <td>BANK</td>
+  </tr>
+  <tr>
+    <td>WALL</td>
+    <td>SAVER</td>
+    <td>COIN</td>
+  </tr>
+  <tr>
+    <td>COIN</td>
+    <td>WALL</td>
+    <td>THIEF</td>
+  </tr>
+</table>
 
 
 All agents inherit from the same base class (Agent).  
