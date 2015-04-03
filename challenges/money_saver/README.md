@@ -17,7 +17,7 @@ Thieves: have more money than the savers.
 
 - Rectangular matrix (N x M)
 
-[terrain](https://github.com/kogyblack/ime_machinelearning/blob/money_saver/challenges/money_saver/money_saver.png "Terrain example")
+![terrain](https://github.com/kogyblack/ime_machinelearning/blob/money_saver/challenges/money_saver/money_saver.png "Terrain example")
 
 
 ####Tiles
