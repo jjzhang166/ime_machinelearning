@@ -1,8 +1,8 @@
 #include <cstdio>
 #include <algorithm>
 
-#include "client/world.h"
-#include "client/body.h"
+#include "client/physics/body.h"
+#include "client/physics/world.h"
 
 namespace gfx
 {
