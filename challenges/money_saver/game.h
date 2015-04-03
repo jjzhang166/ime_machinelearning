@@ -25,20 +25,30 @@ public:
   void step();
 
   int turn() const { return turn_; }
-  int coins_available() const { return coins_available_; }
+
+  int coinsLeft() const { return coins_available_; }
+  int bank() const { return bank_; }
+  int saversTotalCoins() const;
+  int thievesTotalCoins() const;
+  std::vector<int> saversCoins() const;
+  std::vector<int> thievesCoins() const;
+  Winner winning() const;
 
   const std::vector<Terrain> terrain() const;
 
   int n() const { return n_; }
   int m() const { return m_; }
 
-  Winner winning() const;
+  unsigned saversCount() const { return savers_.size(); }
+  unsigned thievesCount() const { return thieves_.size(); }
 
 private:
   void getVision(const Agent* p);
   void move(Agent* p, Direction dir, bool is_saver);
   void moveAgent(Agent* p, Direction dir, bool is_saver);
   Agent* getAgentByPosition(int x, int y);
+
+  int mapXY(int x, int y) const { return y * m_ + x; }
 
   int turn_;
   int bank_;

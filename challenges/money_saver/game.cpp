@@ -97,6 +97,8 @@ loadTerrainFromFile(FILE* file)
       thieves_pos_.push_back(i);
       agent_map_[i] = Terrain::THIEF;
     }
+    else if (t == Terrain::COIN)
+      coins_available_++;
   }
 
   return okay;
@@ -254,49 +256,39 @@ move(Agent* p, Direction dir, bool is_saver)
 {
   int x = p->x(),
       y = p->y();
-
-  Terrain* tile = nullptr;
-  Terrain agent_tile = Terrain::INVALID;
+  int target_x = -1,
+      target_y = -1;
 
   if (dir == Direction::UP && y > 0) // UP
-  {
-    tile       = &terrain_ [(y-1) * m_ + x];
-    agent_tile = agent_map_[(y-1) * m_ + x];
-  }
+    target_x = x, target_y = y - 1;
   else if (dir == Direction::DOWN && y < n_ - 1) // DOWN
-  {
-    tile       = &terrain_ [(y+1) * m_ + x];
-    agent_tile = agent_map_[(y+1) * m_ + x];
-  }
+    target_x = x, target_y = y + 1;
   else if (dir == Direction::LEFT && x > 0) // LEFT
-  {
-    tile       = &terrain_ [y * m_ + x-1];
-    agent_tile = agent_map_[y * m_ + x-1];
-  }
+    target_x = x - 1, target_y = y;
   else if (dir == Direction::RIGHT && x < m_ - 1) // RIGHT
-  {
-    tile       = &terrain_ [y * m_ + x+1];
-    agent_tile = agent_map_[y * m_ + x+1];
-  }
+    target_x = x + 1, target_y = y;
 
-
-  if (!tile)
+  if (target_x < 0)
     return;
 
-  if (*tile == Terrain::NONE && agent_tile == Terrain::NONE)
+  int xy = mapXY(target_x, target_y);
+  Terrain& tile = terrain_[xy];
+
+  if (tile == Terrain::NONE && agent_map_[xy] == Terrain::NONE)
     moveAgent(p, dir, is_saver);
   else if (is_saver)
   {
-    if (agent_tile == Terrain::THIEF)
+    if (agent_map_[xy] == Terrain::THIEF)
       return;
 
-    if (*tile == Terrain::COIN)
+    if (tile == Terrain::COIN)
     {
       p->coins_++;
-      *tile = Terrain::NONE;
+      coins_available_--;
+      tile = Terrain::NONE;
       moveAgent(p, dir, true);
     }
-    else if (*tile == Terrain::BANK)
+    else if (tile == Terrain::BANK)
     {
       bank_ += p->coins();
       p->coins_ = 0;
@@ -304,14 +296,13 @@ move(Agent* p, Direction dir, bool is_saver)
   }
   else if (!is_saver)
   {
-    if (agent_tile == Terrain::SAVER)
+    if (agent_map_[xy] == Terrain::SAVER)
     {
-      auto s = getAgentByPosition(x, y);
+      auto s = getAgentByPosition(target_x, target_y);
       p->coins_ += s->coins();
       s->coins_ = 0;
     }
-
-    if (*tile == Terrain::COIN)
+    else if (tile == Terrain::COIN)
       moveAgent(p, dir, false);
   }
 }
@@ -340,22 +331,59 @@ getAgentByPosition(int x, int y)
   for (unsigned i = 0; i < thieves_.size(); ++i)
     if (thieves_[i]->x() == x && thieves_[i]->y() == y)
       return thieves_[i];
+
   return nullptr;
+}
+
+int Game::
+saversTotalCoins() const
+{
+  int coins = 0; // bank?
+  for (unsigned i = 0; i < savers_.size(); ++i)
+    coins += savers_[i]->coins();
+  return coins;
+}
+
+int Game::
+thievesTotalCoins() const
+{
+  int coins = 0;
+  for (unsigned i = 0; i < thieves_.size(); ++i)
+    coins += thieves_[i]->coins();
+  return coins;
+}
+
+std::vector<int> Game::
+saversCoins() const
+{
+  std::vector<int> coins;
+  for (unsigned i = 0; i < savers_.size(); ++i)
+    coins.push_back(savers_[i]->coins());
+  return coins;
+}
+
+std::vector<int> Game::
+thievesCoins() const
+{
+  std::vector<int> coins;
+  for (unsigned i = 0; i < thieves_.size(); ++i)
+    coins.push_back(thieves_[i]->coins());
+  return coins;
 }
 
 Winner Game::
 winning() const
 {
-  int savers_money = 0,
-      thieves_money = 0;
+  int savers_coins = bank_,
+      thieves_coins = 0;
   for (unsigned i = 0; i < savers_.size(); ++i)
-    savers_money += savers_[i]->coins();
+    savers_coins += savers_[i]->coins();
   for (unsigned i = 0; i < thieves_.size(); ++i)
-    thieves_money += thieves_[i]->coins();
+    thieves_coins += thieves_[i]->coins();
 
-  if      (savers_money > thieves_money)
+  if      (savers_coins > thieves_coins)
     return Winner::SAVERS;
-  else if (savers_money < thieves_money)
+  else if (savers_coins < thieves_coins)
     return Winner::THIEVES;
   else
     return Winner::DRAW;

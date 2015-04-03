@@ -34,19 +34,84 @@ int main(int argc, char** argv)
 
   int max_turns = 200;
 
-  double timer = gfx::getTime();
-  double time_step = 0.2;
-  while (!gfx::windowShouldClose() && game.turn() < max_turns)
-  {
-    render(game);
+  float time_step = 0.2f;
+  bool playing = false;
 
-    while (gfx::getTime() - timer >= time_step)
+  bool show_options = true;
+
+  double timer = gfx::getTime();
+  while (!gfx::windowShouldClose())
+  {
+    // Game update
+    if (game.turn() < max_turns)
     {
-      game.step();
-      timer += time_step;
+      if (playing)
+      {
+        while (gfx::getTime() - timer >= time_step)
+        {
+          game.step();
+          timer += time_step;
+        }
+      }
+      else
+        timer = gfx::getTime();
+    }
+    else
+    {
+      playing = false;
     }
 
+    // Poll events
     gfx::pollEvents();
+
+    // Rendering
+    render(game);
+
+    // GUI
+    {
+      if (ImGui::Begin("Game Options", nullptr, {270,80}, 0.8f,
+                       ImGuiWindowFlags_NoResize |
+                       ImGuiWindowFlags_NoMove))
+      {
+        ImGui::SetWindowPos({0, 0}, ImGuiSetCond_FirstUseEver);
+        ImGui::SetWindowSize({0, 0}, ImGuiSetCond_FirstUseEver);
+
+        if (ImGui::SmallButton(playing ? "Stop" : "Play"))
+        {
+          playing ^= 1;
+          //if (playing)
+          //  ImGui::SetWindowCollapsed(true);
+        }
+        ImGui::SliderFloat("Time step", &time_step, 0.f, 1.f);
+        ImGui::InputInt("Max turns", &max_turns);
+
+        ImGui::Text("Turn: %3d", game.turn());
+        ImGui::TextColored({0.f, 1.f, 0.f, 1.f},
+                           "Bank coins   : %3zd", game.bank());
+        ImGui::TextColored({0.f, 0.f, 1.f, 1.f},
+                           "Savers coins : %3zd", game.saversTotalCoins());
+        ImGui::TextColored({1.f, 0.f, 0.f, 1.f},
+                           "Thieves coins: %3zd", game.thievesTotalCoins());
+
+        ImGui::Text("Savers:");
+        ImGui::Indent();
+        auto coins = game.saversCoins();
+        unsigned s = game.saversCount();
+        for (unsigned i = 0; i < s; ++i)
+          ImGui::Text("%2zd: %3d coins", i, coins[i]);
+        ImGui::Unindent();
+
+        ImGui::Text("Thieves:");
+        ImGui::Indent();
+        coins = game.thievesCoins();
+        s = game.thievesCount();
+        for (unsigned i = 0; i < s; ++i)
+          ImGui::Text("%2zd: %3d coins", i, coins[i]);
+        ImGui::Unindent();
+      }
+      ImGui::End();
+    }
+
     gfx::swapBuffers();
   }
 
