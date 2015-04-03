@@ -27,16 +27,18 @@ Thieves: have more money than the savers.
 
 Example:
 
-0000000000  
-0000000050  
-0222222220  
-0200000020  
-0200330020  
-0200330020  
-0200000020  
-0222222220  
-0400000000  
-0000000000  
+```
+0000000000
+0000000050
+0222222220
+0200000020
+0200330020
+0200330020
+0200000020
+0222222220
+0400000000
+0000000000
+```
 
 ###Agents
 Savers and thieves are intelligent agents.
@@ -63,11 +65,14 @@ Install GLFW 3
 ``sudo apt-get install libglfw3``  
 
 On ime_machinelearning root folder, do the following:  
-> mkdir build  
-> cd build  
-> cmake ..  
-> make money_saver  
-> cd bin/challenges/money_saver  
+
+```
+mkdir build
+cd build
+cmake .
+make money_save
+cd bin/challenges/money_saver
+```
 
 ###Executing the client
 ####Normal client
@@ -81,24 +86,28 @@ Building your own intelligence
 All savers and thieves have to inherit the Agent class interface (agent.h).  
 
 Example:
-> #include "challenges/money_saver/agent.h"
->
-> class Template : public Agent
-> {
-> public:
->   virtual Direction walk(Terrain vision[], int vision_size)
->   {
->     return Direction::UP;
->   }
-> };
+```
+&#35;include "challenges/money_saver/agent.h"
+
+class Template : public Agent
+{
+public:
+  virtual Direction walk(Terrain vision[], int vision_size)
+  {
+    return Direction::UP;  
+  }
+};
+```
 
 The game client will search for a function maker (signature ``Agent* maker()``).
 To create your own maker function, do the following:
 
-> extern "C" Agent* maker()
-> {
->   return new Template;
-> }
+```
+extern "C" Agent* maker()
+{
+  return new Template;
+}
+```
 
 To compile you have two options: using cmake or g++/clang++.
 ####Compiling your agent via CMake
