@@ -48,7 +48,6 @@ int main()
                        {200, 100}, // Size
                        0.8f,
                        ImGuiWindowFlags_NoResize |
-                       ImGuiWindowFlags_NoSavedSettings |
                        ImGuiWindowFlags_NoCollapse |
                        ImGuiWindowFlags_AlwaysAutoResize)) // Window flags
       {

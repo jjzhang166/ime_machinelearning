@@ -66,6 +66,14 @@ static void keyCallback(GLFWwindow* window, int key, int scancode,
 #endif
 }
 
+static void charModsCallback(GLFWwindow* /*window*/, unsigned int codepoint,
+                             int /*mods*/)
+{
+  // ImGui
+  if (codepoint > 0 && codepoint < 0x10000)
+    ImGui::GetIO().AddInputCharacter((unsigned short)codepoint);
+}
+
 // This is the main rendering function that you have to implement and provide to
 // ImGui (via setting up 'RenderDrawListsFn' in the ImGuiIO structure)
 // If text or lines are blurry when integrating ImGui in your engine:
@@ -181,14 +189,12 @@ static void initGui()
   io.KeyMap[ImGuiKey_Backspace] = GLFW_KEY_BACKSPACE;
   io.KeyMap[ImGuiKey_Enter] = GLFW_KEY_ENTER;
   io.KeyMap[ImGuiKey_Escape] = GLFW_KEY_ESCAPE;
-  /*
   io.KeyMap[ImGuiKey_A] = GLFW_KEY_A;
   io.KeyMap[ImGuiKey_C] = GLFW_KEY_C;
   io.KeyMap[ImGuiKey_V] = GLFW_KEY_V;
   io.KeyMap[ImGuiKey_X] = GLFW_KEY_X;
   io.KeyMap[ImGuiKey_Y] = GLFW_KEY_Y;
   io.KeyMap[ImGuiKey_Z] = GLFW_KEY_Z;
-  */
 
   io.RenderDrawListsFn = ImImpl_RenderDrawLists;
 
@@ -314,6 +320,7 @@ bool createWindow(int w, int h, const char* title)
   // callbacks
   glfwSetErrorCallback(priv::errorCallback);
   glfwSetKeyCallback(window, priv::keyCallback);
+  glfwSetCharModsCallback(window, priv::charModsCallback);
   glfwSetMouseButtonCallback(window, priv::mouseButtonCallback);
   glfwSetScrollCallback(window, priv::scrollCallback);
 
