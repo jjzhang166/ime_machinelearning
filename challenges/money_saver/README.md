@@ -234,5 +234,5 @@ g++ <sources> -o <agent name>.so -fpic -shared -std=c++11
 ```
 
 Place the generated lib in
-``ime_machinelearning/build/bin/challenges/money_saver``.
+``ime_machinelearning/build/bin/challenges/money_saver``.  
 To execute the client with your agent, see _Executing the client_ above.
