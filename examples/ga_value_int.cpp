@@ -22,8 +22,7 @@ void printGenome(const IntValueGenome& genome)
 
 int main(int argc, char** argv)
 {
-  int population_size = 20, generations = 100;
-  unsigned elite = 2;
+  unsigned population_size = 20, generations = 100, elite = 2;
   double mutation = 0.01, crossover = 0.7;
   if (argc > 1)
     population_size  = atoi(argv[1]);
@@ -36,12 +35,20 @@ int main(int argc, char** argv)
   if (argc > 5)
     crossover   = atof(argv[5]);
 
-  ga::GeneticAlgorithm<IntValueGenome> evolution (population_size, 32, elite,
-                                                  mutation, crossover,
-                                                  [] (IntValueGenome& a)
-                                                  { return 1.0; });
+  auto fitnessFunc = [] (IntValueGenome& g)
+  {
+    int t = 0;
+    auto x = g.extract();
+    for (unsigned i = 0; i < x.size(); ++i)
+      t += x[i];
+    return 1.0 / exp(abs(42 - t) / 10.f);
+  };
 
-  for (int i = 0; i < generations; ++i)
+  ga::GeneticAlgorithm<IntValueGenome> evolution {population_size, 8, elite,
+                                                  mutation, crossover,
+                                                  fitnessFunc};
+
+  for (unsigned i = 0; i < generations; ++i)
   {
     if (i > 0) evolution.epoch();
 
@@ -49,7 +56,10 @@ int main(int argc, char** argv)
 
     auto population = evolution.population();
     for (unsigned j = 0; j < population.size(); ++j)
+    {
+      printf("%.2f: ", population[j].getFitness());
       printGenome(population[j]);
+    }
     printf("\n");
   }
 

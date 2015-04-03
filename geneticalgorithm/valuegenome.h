@@ -13,23 +13,72 @@
 namespace ga
 {
 
-// TODO(naum): Separate floating point genomes from integrals, or solve all integers cases
+/**
+ * Generic class for value genomes.
+ * Template class that defines a general value genome.
+ * NOTE: This class does not have the explicit single unsigned constructor needed
+ * ont GeneticAlgorithm interface. So you have to inherit this class into another
+ * one that have the constructor needed.
+ * \param T Value type.
+ * \param Limited If value is only change inside construction min and max or not.
+ * \param RandomMutation If mutations changes values to completely random value
+ *                       between \a min_value_ and \a max_value_ or mutations
+ *                       causes changes to a maximum of \a max_mutation_.
+ */
 template<typename T, bool Limited = true, bool RandomMutation = false>
 class ValueGenome : public Genome
 {
 public:
-  using type_chromo = std::vector<T>;
-  using type_value  = T;
+  using type_chromo = std::vector<T>; /**< Chromossome type */
+  using type_value  = T;  /**< Value type of genes */
 
+  /**
+   * Default constructor.
+   * Calls Genome default constructor.
+   */
   ValueGenome();
-  ValueGenome(unsigned chromo_len, T min_value, T max_value, T max_mutation = T(0));
 
+  /**
+   * Minimum-maximum constructor.
+   * Initialize a random chromossome and sets \a min_value, \a max_value_ and
+   * \a max_mutation_ (if \a RandomMutation is true, this attribute will
+   * not be used).
+   * \todo For integer values, change \a max_value_ to be inclusive.
+   * \param chromo_len Chromossome length
+   * \param min_value If \a Limited and not \a RandomMutation, the minimum value
+   *                  the genes can have. Else, the initial minimum value the
+   *                  genes can have.
+   * \param max_value If \a Limited and not \a RandomMutation, the maximum value
+   *                  the genes can have. Else, the initial maximum value the
+   *                  genes can have.
+   * \param max_mutation If \a RandomMutation is false, maximum mutation value
+   *                     range. Else, ignored.
+   */
+  ValueGenome(unsigned chromo_len,
+              T min_value, T max_value, T max_mutation = T(0));
+
+  /**
+   * Extracts chromossome.
+   * Necessary for GeneticAlgorithm genomes creation.
+   * Return the whole chromossome (const reference).
+   * \return Chromossome vector (const reference).
+   */
   const type_chromo& extract() const;
 
+  /**
+   * Mutate genes.
+   * If \a RandomMutation is true, the values of some genes, based on the
+   * mutation rate, change into completely new values between \a min_value_
+   * and \a max_value_ (exclusive).
+   * \todo For integer values, change \a max_value_ to be inclusive.
+   * \param rate Mutation rate (between 0 and 1)
+   */
   void mutate(double rate);
 protected:
-  type_chromo chromossome_;
-  T min_value_, max_value_, max_mutation_;
+  type_chromo chromossome_; /**< Chromossome */
+  T min_value_, /**< Minimum gene value */
+    max_value_, /**< Maximum gene value (exclusive for integral types) */
+    max_mutation_; /**< Maximum gene value mutation range */
 };
 
 

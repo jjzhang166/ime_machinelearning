@@ -13,12 +13,15 @@ int main()
   {
     gfx::setCameraPosition(10 * (gfx::getTime() - timebegin), 0);
 
-    glLoadIdentity();
+    glPushMatrix();
+    glTranslatef(320.f, 240.f, 0.f);
+    glRotatef(100 * gfx::getTime(), 0.f, 0.f, 1.f);
     glBegin(GL_TRIANGLES);
-    glColor3f(1.f, 0.f, 0.f); glVertex3f(200.f, 100.f, 0.f);
-    glColor3f(0.f, 1.f, 0.f); glVertex3f(100.f, 273.f, 0.f);
-    glColor3f(0.f, 0.f, 1.f); glVertex3f(300.f, 273.f, 0.f);
+    glColor3f(1.f, 0.f, 0.f); glVertex3f(  0.f, 107.f, 0.f);
+    glColor3f(0.f, 1.f, 0.f); glVertex3f(-92.f, -53.f, 0.f);
+    glColor3f(0.f, 0.f, 1.f); glVertex3f( 92.f, -53.f, 0.f);
     glEnd();
+    glPopMatrix();
 
     gfx::pollEvents();
     gfx::swapBuffers();
