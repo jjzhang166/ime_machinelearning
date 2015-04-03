@@ -1762,6 +1762,9 @@ static void LoadSettings()
 
 static void SaveSettings()
 {
+    // NOTE(naum): Disabled save settings!
+    return;
+
     ImGuiState& g = *GImGui;
     const char* filename = g.IO.IniFilename;
     if (!filename)
@@ -2022,8 +2025,7 @@ void ImGui::Shutdown()
     if (!g.Initialized)
         return;
 
-    // NOTE(naum): Disabled save settings!
-    //SaveSettings();
+    SaveSettings();
 
     for (size_t i = 0; i < g.Windows.size(); i++)
     {

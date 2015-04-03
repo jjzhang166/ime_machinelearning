@@ -11,7 +11,11 @@ int main()
   auto timebegin = gfx::getTime();
   while (!gfx::windowShouldClose())
   {
-    gfx::setCameraPosition(10 * (gfx::getTime() - timebegin), 0);
+    gfx::pollEvents();
+
+    auto t = gfx::getTime();
+    gfx::moveCamera(10 * (t - timebegin), 0);
+    timebegin = t;
 
     glPushMatrix();
     glTranslatef(320.f, 240.f, 0.f);
@@ -23,7 +27,6 @@ int main()
     glEnd();
     glPopMatrix();
 
-    gfx::pollEvents();
     gfx::swapBuffers();
   }
 
