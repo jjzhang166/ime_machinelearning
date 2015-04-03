@@ -111,7 +111,7 @@ loadPlayers(std::string saverfile,
   std::string saverstr = "./" + saverfile,
               thiefstr = "./" + thieffile;
 
-  Agent* (*maker)();
+  Agent* (*maker)(const int);
 
 #ifndef NDEBUG
   printf("[GAME] Loading players...\n");
@@ -129,7 +129,7 @@ loadPlayers(std::string saverfile,
   printf("[GAME] Saver handle ok!\n");
 #endif
 
-  maker = (Agent* (*)()) dlsym(saver_handle_, "maker");
+  maker = (Agent* (*)(const int)) dlsym(saver_handle_, "maker");
 
   if (!maker)
   {
@@ -143,7 +143,7 @@ loadPlayers(std::string saverfile,
 
   for (unsigned i = 0; i < savers_pos_.size(); ++i)
   {
-    savers_.push_back(maker());
+    savers_.push_back(maker(vision_size_));
     savers_[i]->x_ = savers_pos_[i] % m_;
     savers_[i]->y_ = savers_pos_[i] / m_;
   }
@@ -165,7 +165,7 @@ loadPlayers(std::string saverfile,
   printf("[GAME] Thief handle ok!\n");
 #endif
 
-  maker = (Agent* (*)()) dlsym(thief_handle_, "maker");
+  maker = (Agent* (*)(const int)) dlsym(thief_handle_, "maker");
   if (!maker)
   {
     fprintf(stderr, "Could not find make symbol: %s\n", dlerror());
@@ -178,7 +178,7 @@ loadPlayers(std::string saverfile,
 
   for (unsigned i = 0; i < thieves_pos_.size(); ++i)
   {
-    thieves_.push_back(maker());
+    thieves_.push_back(maker(vision_size_));
     thieves_[i]->x_ = thieves_pos_[i] % m_;
     thieves_[i]->y_ = thieves_pos_[i] / m_;
   }
@@ -198,14 +198,14 @@ step()
   for (unsigned i = 0; i < savers_.size(); ++i)
   {
     getVision(savers_[i]);
-    Direction dir = savers_[i]->walk(&vision_[0], vision_size_);
+    Direction dir = savers_[i]->walk(&vision_[0]);
     move(savers_[i], dir, true);
   }
 
   for (unsigned i = 0; i < thieves_.size(); ++i)
   {
     getVision(thieves_[i]);
-    Direction dir = thieves_[i]->walk(&vision_[0], vision_size_);
+    Direction dir = thieves_[i]->walk(&vision_[0]);
     move(thieves_[i], dir, false);
   }
 

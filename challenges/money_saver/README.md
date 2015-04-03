@@ -25,6 +25,21 @@ Thieves: have more money than the savers.
 - 4: Money Saver
 - 5: Thief
 
+Inside the _agent.h_ there's a enum that abstract this:
+
+```cpp
+enum class Terrain
+{
+  NONE,
+  WALL,
+  COIN,
+  BANK,
+  SAVER,
+  THIEF,
+  NUM_TERRAINS // Internal usage
+};
+```
+
 Example:
 
 ```
@@ -41,7 +56,57 @@ Example:
 ```
 
 ###Agents
-Savers and thieves are intelligent agents.
+Savers and thieves are intelligent agents.  
+Agents have a limited vision range. The vision of the agent is a square
+matrix around the agent position, in which the agent is in the center of the
+matrix. The matrix dimensions are always
+(2 * vision_size + 1) x (2 * vision_size + 1).
+
+Example:
+
+> vision_size = 1
+
+| 0 | 1 | 2 |
+|---|---|---|
+| 3 | 4 | 5 |
+| 6 | 7 | 8 |
+
+- Position 4: Agent
+
+Valid vision:
+
+| WALL | NONE  | BANK  |
+|------|-------|-------|
+| WALL | SAVER | COIN  |
+| COIN | WALL  | THIEF |
+
+
+All agents inherit from the same base class (Agent).  
+Every turn, the client will call the the method _walk_ of every
+agent (savers first, thieves last).  
+The walk method is the intelligence of the agent. It will receive the
+vision around him and have to return one of the possible directions to
+walk.
+
+Walk method signature
+
+```cpp
+Direction walk(Terrain vision[])
+```
+
+Directions:
+
+```cpp
+enum class Direction
+{
+  NONE,   // Stay still
+  UP,     // Walk up
+  DOWN,   // Walk down
+  LEFT,   // Walk left
+  RIGHT,  // Walk right
+  NUM_DIRECTIONS // Internal usage
+};
+```
 
 
 Clients
@@ -100,9 +165,9 @@ Example:
 class Template : public Agent
 {
 public:
-  virtual Direction walk(Terrain vision[], int vision_size)
+  virtual Direction walk(Terrain vision[]) override
   {
-    return Direction::UP;  
+    return Direction::UP;
   }
 };
 ```
@@ -111,11 +176,13 @@ The game client will search for a function maker (signature ``Agent* maker()``).
 To create your own maker function, do the following:
 
 ```c
-extern "C" Agent* maker()
+extern "C" Agent* maker(const int vision_size)
 {
-  return new Template;
+  return new Template {vision_size};
 }
 ```
+
+(See _agents/template.h_, a random walker, to better understand agents).
 
 To compile you have two options: using cmake or g++/clang++.
 ####Compiling your agent via CMake
@@ -137,7 +204,7 @@ On the folder your agent source files are, do the following:
 (To use clang++, change _g++_ to _clang++_)
 
 ```
-g++ <sources> -o <agent name>.so -fpic -shared
+g++ <sources> -o <agent name>.so -fpic -shared -std=c++11
 ```
 
 Place the generated lib in
