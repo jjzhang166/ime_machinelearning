@@ -1,7 +1,7 @@
 #include <chrono>
 #include <random>
 
-#include "agent.h"
+#include "challenges/money_saver/agent.h"
 
 class Template : public Agent
 {
