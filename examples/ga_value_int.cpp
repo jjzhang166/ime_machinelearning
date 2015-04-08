@@ -2,7 +2,7 @@
 #include <cmath>
 
 #include "geneticalgorithm/valuegenome.h"
-#include "geneticalgorithm/genalg.h"
+#include "geneticalgorithm/geneticalgorithm.h"
 
 class IntValueGenome : public ga::ValueGenome<int, true, true>
 {
@@ -52,9 +52,9 @@ int main(int argc, char** argv)
   {
     if (i > 0) evolution.epoch();
 
-    printf("generation %d:\n", evolution.generation());
+    printf("generation %d:\n", evolution.getGeneration());
 
-    auto population = evolution.population();
+    auto population = evolution.getPopulation();
     for (unsigned j = 0; j < population.size(); ++j)
     {
       printf("%.2f: ", population[j].getFitness());

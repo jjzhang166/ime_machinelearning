@@ -23,11 +23,20 @@ public:
                    double crossover_rate,
                    std::function<double (G&)> fitnessFunc);
 
-  unsigned generation() const { return generation_; }
+  GeneticAlgorithm(unsigned population_size,
+                   unsigned chromo_len,
+                   unsigned elite_size,
+                   double mutation_rate,
+                   double crossover_rate);
+
+  unsigned getGeneration() const { return generation_; }
   void epoch();
 
-  const std::vector<G>& population() const { return population_; }
-  G get_best_of_all() const { return best_of_all_; }
+  std::vector<G>& getPopulation(); // NOTE(naum): For external fitnessFunction usage
+  //const std::vector<G>& getPopulation();
+
+  const G& getBestGenome();
+
 protected:
   void reset();
   void populate();
@@ -37,7 +46,7 @@ protected:
   G select();
 
 private:
-  unsigned generation_ = 0;
+  unsigned generation_;
 
   unsigned chromo_len_;
   unsigned population_size_;
@@ -47,9 +56,11 @@ private:
   double total_fitness_;
   double mutation_rate_, crossover_rate_;
 
+  bool has_fitness_func_;
   std::function<double (G&)> fitnessFunc_;
 
-  G best_of_all_;
+  // Internal
+  bool should_update_fitness_;
 };
 
 template<typename G>
@@ -67,7 +78,9 @@ void crossover(G& dad, G& mom)
     std::swap(chromo[0][i], chromo[1][i]);
 }
 
-// Definition
+
+// Template Definition
+
 template<typename G>
 GeneticAlgorithm<G>::
 GeneticAlgorithm()
@@ -81,6 +94,7 @@ GeneticAlgorithm(unsigned population_size,
                  double mutation_rate,
                  double crossover_rate,
                  std::function<double (G&)> fitnessFunc) :
+  generation_ {0},
   chromo_len_ {chromo_len},
   population_size_ {population_size},
   population_ {},
@@ -88,15 +102,47 @@ GeneticAlgorithm(unsigned population_size,
   total_fitness_ {0.0},
   mutation_rate_ {mutation_rate},
   crossover_rate_ {crossover_rate},
-  fitnessFunc_ {fitnessFunc}
+  has_fitness_func_ {true},
+  fitnessFunc_ {fitnessFunc},
+  should_update_fitness_ {true}
 {
-  populate();
-  calculateFitness();
+  reset();
+}
+
+template<typename G>
+GeneticAlgorithm<G>::
+GeneticAlgorithm(unsigned population_size,
+                 unsigned chromo_len,
+                 unsigned elite_size,
+                 double mutation_rate,
+                 double crossover_rate) :
+  chromo_len_ {chromo_len},
+  population_size_ {population_size},
+  population_ {},
+  elite_size_ {elite_size},
+  total_fitness_ {0.0},
+  mutation_rate_ {mutation_rate},
+  crossover_rate_ {crossover_rate},
+  has_fitness_func_ {false},
+  should_update_fitness_ {true}
+{
+  reset();
 }
 
 template<typename G>
 void GeneticAlgorithm<G>::
 reset()
+{
+  generation_ = 0;
+  total_fitness_ = 0.0;
+  should_update_fitness_ = true;
+
+  populate();
+}
+
+template<typename G>
+void GeneticAlgorithm<G>::
+populate()
 {
   population_.resize(population_size_);
   for (unsigned i = 0; i < population_size_; ++i)
@@ -105,26 +151,20 @@ reset()
 
 template<typename G>
 void GeneticAlgorithm<G>::
-populate()
-{
-  if (population_.size() == 0)
-    reset();
-}
-
-template<typename G>
-void GeneticAlgorithm<G>::
 calculateFitness()
 {
-  total_fitness_ = 0.0;
-  for (unsigned i = 0; i < population_size_; ++i)
+  if (should_update_fitness_ && has_fitness_func_)
   {
-    double fitness = fitnessFunc_(population_[i]);
-    population_[i].setFitness(fitness);
+    total_fitness_ = 0.0;
+    for (unsigned i = 0; i < population_size_; ++i)
+    {
+      double fitness = fitnessFunc_(population_[i]);
+      population_[i].setFitness(fitness);
 
-    if (fitness > best_of_all_.getFitness())
-      best_of_all_ = population_[i];
+      total_fitness_ += fitness;
+    }
 
-    total_fitness_ += fitness;
+    should_update_fitness_ = false;
   }
 
   sortPopulation();
@@ -162,6 +202,8 @@ template<typename G>
 void GeneticAlgorithm<G>::
 epoch()
 {
+  calculateFitness();
+
   std::vector<G> offspring;
 
   // Elitism
@@ -190,9 +232,36 @@ epoch()
   }
 
   population_ = offspring;
-  calculateFitness();
+  should_update_fitness_ = true;
 
   generation_++;
+}
+
+template<typename G>
+std::vector<G>& GeneticAlgorithm<G>::
+getPopulation()
+{
+  calculateFitness();
+  return population_;
+}
+
+/*
+template<typename G>
+const std::vector<G>& GeneticAlgorithm<G>::
+getPopulation()
+{
+  calculateFitness();
+
+  return population_;
+}
+*/
+
+template<typename G>
+const G& GeneticAlgorithm<G>::
+getBestGenome()
+{
+  calculateFitness();
+  return population_[0];
 }
 
 }

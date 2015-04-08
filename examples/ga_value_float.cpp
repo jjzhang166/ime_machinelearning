@@ -2,7 +2,7 @@
 #include <cmath>
 
 #include "geneticalgorithm/valuegenome.h"
-#include "geneticalgorithm/genalg.h"
+#include "geneticalgorithm/geneticalgorithm.h"
 
 class FloatValueGenome : public ga::ValueGenome<float>
 {
@@ -38,16 +38,16 @@ int main(int argc, char** argv)
 
   ga::GeneticAlgorithm<FloatValueGenome> evolution (population_size, 16, elite,
                                                   mutation, crossover,
-                                                  [] (FloatValueGenome& a)
+                                                  [] (FloatValueGenome&)
                                                   { return 1.0; });
 
   for (int i = 0; i < generations; ++i)
   {
     if (i > 0) evolution.epoch();
 
-    printf("generation %d:\n", evolution.generation());
+    printf("generation %d:\n", evolution.getGeneration());
 
-    auto population = evolution.population();
+    auto population = evolution.getPopulation();
     for (unsigned j = 0; j < population.size(); ++j)
       printGenome(population[j]);
     printf("\n");

@@ -2,7 +2,7 @@
 #include <cmath>
 
 #include "geneticalgorithm/binarygenome.h"
-#include "geneticalgorithm/genalg.h"
+#include "geneticalgorithm/geneticalgorithm.h"
 
 int genomeValue(const ga::BinaryGenome& genome)
 {
@@ -89,13 +89,13 @@ int main(int argc, char** argv)
   {
     if (i > 0) evolution.epoch();
 
-    printf("generation %d:\n", evolution.generation());
+    printf("generation %d:\n", evolution.getGeneration());
 
-    printf("best:\n     %d %.2f: ", genomeValue(evolution.get_best_of_all()), evolution.get_best_of_all().getFitness());
-    printGenome(evolution.get_best_of_all());
+    printf("best:\n     %d %.2f: ", genomeValue(evolution.getBestGenome()), evolution.getBestGenome().getFitness());
+    printGenome(evolution.getBestGenome());
     printf("\n");
 
-    auto population = evolution.population();
+    auto population = evolution.getPopulation();
     for (unsigned j = 0; j < population.size(); ++j)
     {
       printf("%3d %3d %1.2f: ", j, genomeValue(population[j]), population[j].getFitness());
@@ -104,7 +104,7 @@ int main(int argc, char** argv)
     printf("\n");
   }
 
-  printf("Best of all: %d\n", genomeValue(evolution.get_best_of_all()));
+  printf("Best of all: %d\n", genomeValue(evolution.getBestGenome()));
 
   return 0;
 }

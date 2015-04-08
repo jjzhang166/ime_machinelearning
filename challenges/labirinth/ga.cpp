@@ -2,7 +2,7 @@
 #include <cmath>
 
 #include "geneticalgorithm/valuegenome.h"
-#include "geneticalgorithm/genalg.h"
+#include "geneticalgorithm/geneticalgorithm.h"
 
 const int N = 10;
 const int M = 10;
@@ -110,12 +110,12 @@ int main(int argc, char** argv)
                                                mutation, crossover,
                                                fitnessFunc);
 
-  auto population = evolution.population();
+  auto population = evolution.getPopulation();
   while (population[0].x != goal_x || population[0].y != goal_y)
   {
-    printf("generation %d:\n", evolution.generation());
+    printf("generation %d:\n", evolution.getGeneration());
 
-    population = evolution.population();
+    //population = evolution.getPopulation();
     for (unsigned j = 0; j < 1; ++j)
       printGenome(population[j]);
     printf("\n");

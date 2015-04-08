@@ -4,7 +4,7 @@
 #include "geneticalgorithm/genome.h"
 #include "geneticalgorithm/binarygenome.h"
 #include "geneticalgorithm/valuegenome.h"
-#include "geneticalgorithm/genalg.h"
+#include "geneticalgorithm/geneticalgorithm.h"
 
 #endif //GENETICALGORITHM_GENETICS_H
 
