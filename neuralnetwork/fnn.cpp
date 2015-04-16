@@ -68,6 +68,19 @@ addLayers(unsigned s)
   }
 }
 
+int Feedforward::
+getWeightsCount() const
+{
+  unsigned s = input_size_;
+  int i = 0;
+  for (unsigned l = 0; l < layers_.size(); ++l)
+  {
+    i += layers_[l].neurons.size() * (s + 1);
+    s = layers_[l].neurons.size();
+  }
+  return i;
+}
+
 void Feedforward::
 setWeights(const std::vector<float>& ws)
 {
@@ -94,10 +107,10 @@ activate(std::vector<float> input)
   {
     activation.clear();
 
-    for (uint n = 0; n < layers_[l].neurons.size(); ++n)
+    for (unsigned n = 0; n < layers_[l].neurons.size(); ++n)
     {
       float a = 0;
-      for (uint i = 0; i < input.size(); ++i)
+      for (unsigned i = 0; i < input.size(); ++i)
         a += input[i] * layers_[l].neurons[n].ws[i];
       a -= layers_[l].neurons[n].ws.back();
       activation.push_back(sigmoid(a));

@@ -8,7 +8,6 @@
 namespace nn
 {
 
-
 class Feedforward
 {
 public:
@@ -22,11 +21,14 @@ public:
   template<typename... Args>
   void addLayers(unsigned first, Args... args);
 
+  int getWeightsCount() const;
+
   void setWeights(const std::vector<float>& ws);
   void randomize();
   void reset();
 
   std::vector<float> activate(std::vector<float> input);
+
   void print() const;
 protected:
 private:

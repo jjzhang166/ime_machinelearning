@@ -153,19 +153,34 @@ template<typename G>
 void GeneticAlgorithm<G>::
 calculateFitness()
 {
-  if (should_update_fitness_ && has_fitness_func_)
+  if (should_update_fitness_)
   {
+    printf("Should update!\n");
     total_fitness_ = 0.0;
     for (unsigned i = 0; i < population_size_; ++i)
     {
-      double fitness = fitnessFunc_(population_[i]);
-      population_[i].setFitness(fitness);
+      double fitness;
+      if (has_fitness_func_)
+      {
+        fitness = fitnessFunc_(population_[i]);
+        population_[i].setFitness(fitness);
+      }
+      else
+      {
+        fitness = population_[i].getFitness();
+      }
 
       total_fitness_ += fitness;
     }
-
-    should_update_fitness_ = false;
   }
+  else
+    printf("Should not update!\n");
+
+#ifndef NDEBUG
+  printf("[GA] Total fitness: %lf\n", total_fitness_);
+#endif
+
+  should_update_fitness_ = false;
 
   sortPopulation();
 }
@@ -190,7 +205,12 @@ select()
   {
     double fitness = population_[i].getFitness();
     if (selected <= fitness)
+    {
+#ifndef NDEBUG
+      printf("[GA] Selected: %zd\n", i);
+#endif
       return population_[i];
+    }
     selected -= fitness;
   }
 
@@ -205,13 +225,20 @@ epoch()
   calculateFitness();
 
   std::vector<G> offspring;
+  offspring.reserve(population_size_);
 
   // Elitism
+#ifndef NDEBUG
+  printf("[GA] Elitism: %zd\n", elite_size_);
+#endif
   for(unsigned i = 0; i < elite_size_; ++i)
     offspring.push_back(population_[i]);
 
   while (offspring.size() < population_size_)
   {
+#ifndef NDEBUG
+    printf("[GA] Populating: %zd\n", offspring.size());
+#endif
     G children[2];
 
     // Selection
@@ -234,6 +261,10 @@ epoch()
   population_ = offspring;
   should_update_fitness_ = true;
 
+#ifndef NDEBUG
+    printf("[GA] Populated: %zd\n", population_.size());
+#endif
+
   generation_++;
 }
 
@@ -241,7 +272,7 @@ template<typename G>
 std::vector<G>& GeneticAlgorithm<G>::
 getPopulation()
 {
-  calculateFitness();
+  //calculateFitness();
   return population_;
 }
 

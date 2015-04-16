@@ -1,1 +1,1 @@
-add_library (rng rng.cpp)
+add_library (rng SHARED rng.cpp)
