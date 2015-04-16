@@ -24,9 +24,12 @@ public:
 
   void step();
 
+  void reset();
+
   int turn() const { return turn_; }
 
   int coinsLeft() const { return coins_available_; }
+  int getTotalCoins() const { return original_coins_available_; }
   int bank() const { return bank_; }
   int saversTotalCoins() const;
   int thievesTotalCoins() const;
@@ -39,7 +42,10 @@ public:
   int n() const { return n_; }
   int m() const { return m_; }
 
+  std::vector<Agent*>& getSavers() { return savers_; }
   unsigned saversCount() const { return savers_.size(); }
+
+  std::vector<Agent*>& getThieves() { return thieves_; }
   unsigned thievesCount() const { return thieves_.size(); }
 
 private:
@@ -49,6 +55,8 @@ private:
   Agent* getAgentByPosition(int x, int y);
 
   int mapXY(int x, int y) const { return y * m_ + x; }
+
+  void resetAgents();
 
   int turn_;
   int bank_;
@@ -65,6 +73,12 @@ private:
   void* thief_handle_;
   std::vector<int> savers_pos_, thieves_pos_;
   std::vector<Agent*> savers_, thieves_;
+
+  // TODO(naum): Think a better way. Reopening the terrain file is not good,
+  //             but allocating the double of memory seems not good either..
+  // Reset
+  std::vector<Terrain> original_terrain_;
+  int original_coins_available_;
 };
 
 #endif //GAME_H

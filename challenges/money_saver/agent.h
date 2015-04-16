@@ -19,7 +19,7 @@ public:
   Agent(const int vision) : vision_size {vision}
   {}
 
-  virtual ~Agent() =0;
+  virtual ~Agent() {}
   virtual Direction walk(Terrain vision[]) =0;
 
   int x() const { return x_; }

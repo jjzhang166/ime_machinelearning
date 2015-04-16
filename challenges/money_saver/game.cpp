@@ -68,8 +68,13 @@ loadTerrainFromFile(FILE* file)
 {
   fscanf(file, "%d%d", &n_, &m_);
 
+  agent_map_.clear();
   agent_map_.resize(n_ * m_);
+
+  terrain_.clear();
   terrain_.resize(n_ * m_);
+
+  coins_available_ = 0;
 
   bool okay = true;
   int a;
@@ -101,6 +106,9 @@ loadTerrainFromFile(FILE* file)
       coins_available_++;
   }
 
+  original_terrain_ = terrain_;
+  original_coins_available_ = coins_available_;
+
   return okay;
 }
 
@@ -118,6 +126,9 @@ loadPlayers(std::string saverfile,
 #endif
 
   // Saver
+  if (saver_handle_)
+    dlclose(saver_handle_);
+
   saver_handle_ = dlopen(saverstr.c_str(), RTLD_LAZY);
   if (!saver_handle_)
   {
@@ -141,19 +152,18 @@ loadPlayers(std::string saverfile,
   printf("[GAME] Saver maker ok!\n");
 #endif
 
+  savers_.clear();
   for (unsigned i = 0; i < savers_pos_.size(); ++i)
-  {
     savers_.push_back(maker(vision_size_));
-    savers_[i]->x_ = savers_pos_[i] % m_;
-    savers_[i]->y_ = savers_pos_[i] / m_;
-  }
-  savers_pos_.clear();
 
 #ifndef NDEBUG
   printf("[GAME] All savers created!\n");
 #endif
 
   // Thief
+  if (thief_handle_)
+    dlclose(thief_handle_);
+
   thief_handle_ = dlopen(thiefstr.c_str(), RTLD_LAZY);
   if (!thief_handle_)
   {
@@ -176,18 +186,16 @@ loadPlayers(std::string saverfile,
   printf("[GAME] Thief maker ok!\n");
 #endif
 
+  thieves_.clear();
   for (unsigned i = 0; i < thieves_pos_.size(); ++i)
-  {
     thieves_.push_back(maker(vision_size_));
-    thieves_[i]->x_ = thieves_pos_[i] % m_;
-    thieves_[i]->y_ = thieves_pos_[i] / m_;
-  }
-  thieves_pos_.clear();
 
 #ifndef NDEBUG
   printf("[GAME] All thieves created!\n");
   printf("[GAME] Loading complete!\n");
 #endif
+
+  resetAgents();
 
   return true;
 }
@@ -210,6 +218,18 @@ step()
   }
 
   turn_++;
+}
+
+void Game::
+reset()
+{
+  turn_ = 0;
+  bank_ = 0;
+  coins_available_ = original_coins_available_;
+
+  terrain_ = original_terrain_;
+
+  resetAgents();
 }
 
 const std::vector<Terrain> Game::
@@ -299,8 +319,16 @@ move(Agent* p, Direction dir, bool is_saver)
     if (agent_map_[xy] == Terrain::SAVER)
     {
       auto s = getAgentByPosition(target_x, target_y);
-      p->coins_ += s->coins();
-      s->coins_ = 0;
+      if (s != nullptr)
+      {
+        p->coins_ += s->coins();
+        s->coins_ = 0;
+      }
+      else
+      {
+        fprintf(stderr, "[ERROR] Null agent on position (%d, %d)\n",
+                target_x, target_y);
+      }
     }
     else if (tile == Terrain::COIN)
       moveAgent(p, dir, false);
@@ -310,6 +338,20 @@ move(Agent* p, Direction dir, bool is_saver)
 void Game::
 moveAgent(Agent* p, Direction dir, bool is_saver)
 {
+  int x = p->x(), y = p->y();
+
+  if (dir == Direction::UP)        y--;
+  else if (dir == Direction::DOWN) y++;
+  else if (dir == Direction::LEFT) x--;
+  else if (dir == Direction::RIGHT) x++;
+
+  if (agent_map_[y * m_ + x] != Terrain::NONE)
+  {
+    fprintf(stderr, "[ERROR] Moving to position already ocupied (%d, %d)",
+            x, y);
+    return;
+  }
+
   agent_map_[p->y() * m_ + p->x()] = Terrain::NONE;
 
   if (dir == Direction::UP)        p->y_ = p->y_ - 1;
@@ -387,4 +429,40 @@ winning() const
     return Winner::THIEVES;
   else
     return Winner::DRAW;
+}
+
+void Game::
+resetAgents()
+{
+#ifndef NDEBUG
+  printf("[GAME] Positioning agents\n");
+#endif
+  agent_map_.clear();
+  agent_map_.insert(agent_map_.begin(),
+                    terrain_.size(),
+                    Terrain::NONE);
+
+  int pos;
+  for (unsigned i = 0; i < savers_pos_.size(); ++i)
+  {
+    pos = savers_pos_[i];
+    agent_map_[pos] = Terrain::SAVER;
+    savers_[i]->x_ = pos % m_;
+    savers_[i]->y_ = pos / m_;
+    savers_[i]->coins_ = 0;
+  }
+
+  for (unsigned i = 0; i < thieves_pos_.size(); ++i)
+  {
+    pos = thieves_pos_[i];
+    agent_map_[pos] = Terrain::THIEF;
+    thieves_[i]->x_ = pos % m_;
+    thieves_[i]->y_ = pos / m_;
+    thieves_[i]->coins_ = 0;
+  }
+
+
+#ifndef NDEBUG
+  printf("[GAME] Positioning ok!\n");
+#endif
 }
