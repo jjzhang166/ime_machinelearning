@@ -1,0 +1,142 @@
+[
+{
+  "directory": "/home/naum/git/ime_machinelearning/build/examples",
+  "command": "/usr/bin/clang++    -I/home/naum/git/ime_machinelearning/. -I/usr/local/include -I/usr/include/libdrm    -std=c++11 -o CMakeFiles/client_example.dir/client.cpp.o -c /home/naum/git/ime_machinelearning/examples/client.cpp",
+  "file": "/home/naum/git/ime_machinelearning/examples/client.cpp"
+},
+{
+  "directory": "/home/naum/git/ime_machinelearning/build/examples",
+  "command": "/usr/bin/clang++    -I/home/naum/git/ime_machinelearning/. -I/usr/local/include -I/usr/include/libdrm    -std=c++11 -o CMakeFiles/ga_binary_example.dir/ga_binary.cpp.o -c /home/naum/git/ime_machinelearning/examples/ga_binary.cpp",
+  "file": "/home/naum/git/ime_machinelearning/examples/ga_binary.cpp"
+},
+{
+  "directory": "/home/naum/git/ime_machinelearning/build/examples",
+  "command": "/usr/bin/clang++    -I/home/naum/git/ime_machinelearning/. -I/usr/local/include -I/usr/include/libdrm    -std=c++11 -o CMakeFiles/ga_value_float_example.dir/ga_value_float.cpp.o -c /home/naum/git/ime_machinelearning/examples/ga_value_float.cpp",
+  "file": "/home/naum/git/ime_machinelearning/examples/ga_value_float.cpp"
+},
+{
+  "directory": "/home/naum/git/ime_machinelearning/build/examples",
+  "command": "/usr/bin/clang++    -I/home/naum/git/ime_machinelearning/. -I/usr/local/include -I/usr/include/libdrm    -std=c++11 -o CMakeFiles/ga_value_int_example.dir/ga_value_int.cpp.o -c /home/naum/git/ime_machinelearning/examples/ga_value_int.cpp",
+  "file": "/home/naum/git/ime_machinelearning/examples/ga_value_int.cpp"
+},
+{
+  "directory": "/home/naum/git/ime_machinelearning/build/examples",
+  "command": "/usr/bin/clang++    -I/home/naum/git/ime_machinelearning/. -I/usr/local/include -I/usr/include/libdrm    -std=c++11 -o CMakeFiles/genomes_example.dir/genomes.cpp.o -c /home/naum/git/ime_machinelearning/examples/genomes.cpp",
+  "file": "/home/naum/git/ime_machinelearning/examples/genomes.cpp"
+},
+{
+  "directory": "/home/naum/git/ime_machinelearning/build/examples",
+  "command": "/usr/bin/clang++    -I/home/naum/git/ime_machinelearning/. -I/usr/local/include -I/usr/include/libdrm    -std=c++11 -o CMakeFiles/gfx_example.dir/gfx.cpp.o -c /home/naum/git/ime_machinelearning/examples/gfx.cpp",
+  "file": "/home/naum/git/ime_machinelearning/examples/gfx.cpp"
+},
+{
+  "directory": "/home/naum/git/ime_machinelearning/build/examples",
+  "command": "/usr/bin/clang++    -I/home/naum/git/ime_machinelearning/. -I/usr/local/include -I/usr/include/libdrm    -std=c++11 -o CMakeFiles/gui_example.dir/gui.cpp.o -c /home/naum/git/ime_machinelearning/examples/gui.cpp",
+  "file": "/home/naum/git/ime_machinelearning/examples/gui.cpp"
+},
+{
+  "directory": "/home/naum/git/ime_machinelearning/build/examples",
+  "command": "/usr/bin/clang++    -I/home/naum/git/ime_machinelearning/. -I/usr/local/include -I/usr/include/libdrm    -std=c++11 -o CMakeFiles/neuralnet_example.dir/neuralnet.cpp.o -c /home/naum/git/ime_machinelearning/examples/neuralnet.cpp",
+  "file": "/home/naum/git/ime_machinelearning/examples/neuralnet.cpp"
+},
+{
+  "directory": "/home/naum/git/ime_machinelearning/build/challenges/labirinth",
+  "command": "/usr/bin/clang++    -I/home/naum/git/ime_machinelearning/. -I/usr/local/include -I/usr/include/libdrm    -std=c++11 -o CMakeFiles/labirinth.dir/ga.cpp.o -c /home/naum/git/ime_machinelearning/challenges/labirinth/ga.cpp",
+  "file": "/home/naum/git/ime_machinelearning/challenges/labirinth/ga.cpp"
+},
+{
+  "directory": "/home/naum/git/ime_machinelearning/build/challenges/money_saver",
+  "command": "/usr/bin/clang++    -I/home/naum/git/ime_machinelearning/. -I/usr/local/include -I/usr/include/libdrm    -std=c++11 -o CMakeFiles/money_saver.dir/main.cpp.o -c /home/naum/git/ime_machinelearning/challenges/money_saver/main.cpp",
+  "file": "/home/naum/git/ime_machinelearning/challenges/money_saver/main.cpp"
+},
+{
+  "directory": "/home/naum/git/ime_machinelearning/build/challenges/money_saver",
+  "command": "/usr/bin/clang++    -I/home/naum/git/ime_machinelearning/. -I/usr/local/include -I/usr/include/libdrm    -std=c++11 -o CMakeFiles/money_saver.dir/game.cpp.o -c /home/naum/git/ime_machinelearning/challenges/money_saver/game.cpp",
+  "file": "/home/naum/git/ime_machinelearning/challenges/money_saver/game.cpp"
+},
+{
+  "directory": "/home/naum/git/ime_machinelearning/build/challenges/money_saver",
+  "command": "/usr/bin/clang++    -I/home/naum/git/ime_machinelearning/. -I/usr/local/include -I/usr/include/libdrm    -std=c++11 -o CMakeFiles/money_saver_gfx.dir/game.cpp.o -c /home/naum/git/ime_machinelearning/challenges/money_saver/game.cpp",
+  "file": "/home/naum/git/ime_machinelearning/challenges/money_saver/game.cpp"
+},
+{
+  "directory": "/home/naum/git/ime_machinelearning/build/challenges/money_saver",
+  "command": "/usr/bin/clang++    -I/home/naum/git/ime_machinelearning/. -I/usr/local/include -I/usr/include/libdrm    -std=c++11 -o CMakeFiles/money_saver_gfx.dir/gfx.cpp.o -c /home/naum/git/ime_machinelearning/challenges/money_saver/gfx.cpp",
+  "file": "/home/naum/git/ime_machinelearning/challenges/money_saver/gfx.cpp"
+},
+{
+  "directory": "/home/naum/git/ime_machinelearning/build/challenges/money_saver/agents",
+  "command": "/usr/bin/clang++   -DfnnSaver_EXPORTS -fPIC -I/home/naum/git/ime_machinelearning/. -I/usr/local/include -I/usr/include/libdrm    -std=c++11 -o CMakeFiles/fnnSaver.dir/fnnSaver.cpp.o -c /home/naum/git/ime_machinelearning/challenges/money_saver/agents/fnnSaver.cpp",
+  "file": "/home/naum/git/ime_machinelearning/challenges/money_saver/agents/fnnSaver.cpp"
+},
+{
+  "directory": "/home/naum/git/ime_machinelearning/build/challenges/money_saver/agents",
+  "command": "/usr/bin/clang++    -I/home/naum/git/ime_machinelearning/. -I/usr/local/include -I/usr/include/libdrm    -std=c++11 -o CMakeFiles/money_saver_fnn_gfx.dir/fnnSaverTrainerGfx.cpp.o -c /home/naum/git/ime_machinelearning/challenges/money_saver/agents/fnnSaverTrainerGfx.cpp",
+  "file": "/home/naum/git/ime_machinelearning/challenges/money_saver/agents/fnnSaverTrainerGfx.cpp"
+},
+{
+  "directory": "/home/naum/git/ime_machinelearning/build/challenges/money_saver/agents",
+  "command": "/usr/bin/clang++    -I/home/naum/git/ime_machinelearning/. -I/usr/local/include -I/usr/include/libdrm    -std=c++11 -o CMakeFiles/money_saver_fnn_gfx.dir/__/game.cpp.o -c /home/naum/git/ime_machinelearning/challenges/money_saver/game.cpp",
+  "file": "/home/naum/git/ime_machinelearning/challenges/money_saver/game.cpp"
+},
+{
+  "directory": "/home/naum/git/ime_machinelearning/build/challenges/money_saver/agents",
+  "command": "/usr/bin/clang++    -I/home/naum/git/ime_machinelearning/. -I/usr/local/include -I/usr/include/libdrm    -std=c++11 -o CMakeFiles/money_saver_fnn_trainer.dir/fnnSaverTrainer.cpp.o -c /home/naum/git/ime_machinelearning/challenges/money_saver/agents/fnnSaverTrainer.cpp",
+  "file": "/home/naum/git/ime_machinelearning/challenges/money_saver/agents/fnnSaverTrainer.cpp"
+},
+{
+  "directory": "/home/naum/git/ime_machinelearning/build/challenges/money_saver/agents",
+  "command": "/usr/bin/clang++    -I/home/naum/git/ime_machinelearning/. -I/usr/local/include -I/usr/include/libdrm    -std=c++11 -o CMakeFiles/money_saver_fnn_trainer.dir/__/game.cpp.o -c /home/naum/git/ime_machinelearning/challenges/money_saver/game.cpp",
+  "file": "/home/naum/git/ime_machinelearning/challenges/money_saver/game.cpp"
+},
+{
+  "directory": "/home/naum/git/ime_machinelearning/build/challenges/money_saver/agents",
+  "command": "/usr/bin/clang++   -DsaverTemplate_EXPORTS -fPIC -I/home/naum/git/ime_machinelearning/. -I/usr/local/include -I/usr/include/libdrm    -std=c++11 -o CMakeFiles/saverTemplate.dir/template.cpp.o -c /home/naum/git/ime_machinelearning/challenges/money_saver/agents/template.cpp",
+  "file": "/home/naum/git/ime_machinelearning/challenges/money_saver/agents/template.cpp"
+},
+{
+  "directory": "/home/naum/git/ime_machinelearning/build/challenges/money_saver/agents",
+  "command": "/usr/bin/clang++   -DthiefTemplate_EXPORTS -fPIC -I/home/naum/git/ime_machinelearning/. -I/usr/local/include -I/usr/include/libdrm    -std=c++11 -o CMakeFiles/thiefTemplate.dir/template.cpp.o -c /home/naum/git/ime_machinelearning/challenges/money_saver/agents/template.cpp",
+  "file": "/home/naum/git/ime_machinelearning/challenges/money_saver/agents/template.cpp"
+},
+{
+  "directory": "/home/naum/git/ime_machinelearning/build/client",
+  "command": "/usr/bin/clang++    -I/home/naum/git/ime_machinelearning/. -I/usr/local/include -I/usr/include/libdrm    -std=c++11 -o CMakeFiles/client.dir/physics/world.cpp.o -c /home/naum/git/ime_machinelearning/client/physics/world.cpp",
+  "file": "/home/naum/git/ime_machinelearning/client/physics/world.cpp"
+},
+{
+  "directory": "/home/naum/git/ime_machinelearning/build/client",
+  "command": "/usr/bin/clang++    -I/home/naum/git/ime_machinelearning/. -I/usr/local/include -I/usr/include/libdrm    -std=c++11 -o CMakeFiles/client.dir/physics/body.cpp.o -c /home/naum/git/ime_machinelearning/client/physics/body.cpp",
+  "file": "/home/naum/git/ime_machinelearning/client/physics/body.cpp"
+},
+{
+  "directory": "/home/naum/git/ime_machinelearning/build/client",
+  "command": "/usr/bin/clang++    -I/home/naum/git/ime_machinelearning/. -I/usr/local/include -I/usr/include/libdrm    -std=c++11 -o CMakeFiles/gfx.dir/gfx.cpp.o -c /home/naum/git/ime_machinelearning/client/gfx.cpp",
+  "file": "/home/naum/git/ime_machinelearning/client/gfx.cpp"
+},
+{
+  "directory": "/home/naum/git/ime_machinelearning/build/client",
+  "command": "/usr/bin/clang++    -I/home/naum/git/ime_machinelearning/. -I/usr/local/include -I/usr/include/libdrm    -std=c++11 -o CMakeFiles/gfx.dir/draw.cpp.o -c /home/naum/git/ime_machinelearning/client/draw.cpp",
+  "file": "/home/naum/git/ime_machinelearning/client/draw.cpp"
+},
+{
+  "directory": "/home/naum/git/ime_machinelearning/build/client",
+  "command": "/usr/bin/clang++    -I/home/naum/git/ime_machinelearning/. -I/usr/local/include -I/usr/include/libdrm    -std=c++11 -o CMakeFiles/gfx.dir/gui/imgui.cpp.o -c /home/naum/git/ime_machinelearning/client/gui/imgui.cpp",
+  "file": "/home/naum/git/ime_machinelearning/client/gui/imgui.cpp"
+},
+{
+  "directory": "/home/naum/git/ime_machinelearning/build/utils",
+  "command": "/usr/bin/clang++   -Drng_EXPORTS -fPIC -I/home/naum/git/ime_machinelearning/. -I/usr/local/include -I/usr/include/libdrm    -std=c++11 -o CMakeFiles/rng.dir/rng.cpp.o -c /home/naum/git/ime_machinelearning/utils/rng.cpp",
+  "file": "/home/naum/git/ime_machinelearning/utils/rng.cpp"
+},
+{
+  "directory": "/home/naum/git/ime_machinelearning/build/neuralnetwork",
+  "command": "/usr/bin/clang++   -Dneuralnet_EXPORTS -fPIC -I/home/naum/git/ime_machinelearning/. -I/usr/local/include -I/usr/include/libdrm    -std=c++11 -o CMakeFiles/neuralnet.dir/fnn.cpp.o -c /home/naum/git/ime_machinelearning/neuralnetwork/fnn.cpp",
+  "file": "/home/naum/git/ime_machinelearning/neuralnetwork/fnn.cpp"
+},
+{
+  "directory": "/home/naum/git/ime_machinelearning/build/geneticalgorithm",
+  "command": "/usr/bin/clang++   -Dgenalg_EXPORTS -fPIC -I/home/naum/git/ime_machinelearning/. -I/usr/local/include -I/usr/include/libdrm    -std=c++11 -o CMakeFiles/genalg.dir/binarygenome.cpp.o -c /home/naum/git/ime_machinelearning/geneticalgorithm/binarygenome.cpp",
+  "file": "/home/naum/git/ime_machinelearning/geneticalgorithm/binarygenome.cpp"
+}
+]
